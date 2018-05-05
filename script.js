@@ -6,10 +6,28 @@
 // @author       Sv443
 // @match        *://www.youtube.com/*
 // @grant        none
+// @run-at       document-start
 // ==/UserScript==
 
 var disable_polymer_design = true; // disables the new ugly polymer design if set to true
+//var quick_bookmark_hotkey = 120; // hotkey for quick bookmark (default key: F9 (120)), to look up key codes go to this website: https://zeamedia.com/helper/javascript-key-codes-char-codes.php
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+var URLhost = window.location.host;
+var URLpath = window.location.pathname;
+var curURL = URLhost + "" + URLpath;
 
 
 if(disable_polymer_design = true){
@@ -57,3 +75,29 @@ if(disable_polymer_design = true){
         }
     });
 }
+
+
+/* DISABLED - doesn't work
+
+document.addEventListener('keyup', function(e){
+	if(e.keyCode == quick_bookmark_hotkey) {
+        var title = prompt("Bookmark Title");
+        var url = curURL;
+        function bookmark(title, url) {
+            if(document.all) { // ie
+                window.external.AddFavorite(url, title);
+            }
+            else if(window.sidebar) { // firefox
+                window.sidebar.addPanel(title, url, "");
+            }
+            else if(window.opera && window.print) { // opera
+                var elem = document.createElement('a');
+                elem.setAttribute('href',url);
+                elem.setAttribute('title',title);
+                elem.setAttribute('rel','sidebar');
+                elem.click(); // this.title=document.title;
+            }
+        }
+    }
+});
+*/
