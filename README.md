@@ -1,7 +1,8 @@
 # TamperTubePlus
 Uses TamperMonkey to add many features to YouTube
 
-
+# Current Features:
+  - Option to disable new forced YouTube Polymer design
 
 # Setup:
   - Install the TamperMonkey addon - Firefox: (https://tinyurl.com/y7xkw9bk), Chrome: (https://tinyurl.com/aqhkmex)
