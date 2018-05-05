@@ -1,8 +1,10 @@
 # TamperTubePlus - Use TamperMonkey to add many features to YouTube
 
+
 # Current Features:
   - Option to disable new forced YouTube Polymer design
   - Make a quick bookmark with a hotkey
+
 
 # Setup:
   - Install the TamperMonkey addon - Firefox: (https://tinyurl.com/ybed26ab), Chrome: (https://tinyurl.com/aqhkmex)
@@ -13,5 +15,5 @@
   - Enjoy the new features!
 
 
-# Hotkeys:
+# Hotkeys (changeable):
   - F9: Quick bookmark (doesn't work yet)
