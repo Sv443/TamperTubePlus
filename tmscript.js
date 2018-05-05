@@ -7,8 +7,8 @@
 // @match        *://www.youtube.com/*
 // @grant        none
 // @run-at       document-start
-// @downloadURL  https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/script.js
-// @updateURL    https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/script.js
+// @downloadURL  https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
+// @updateURL    https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
 // ==/UserScript==
 
 var disable_polymer_design = true; // disables the new ugly polymer design if set to true
