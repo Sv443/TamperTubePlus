@@ -1,5 +1,5 @@
 # TamperTubePlus
-Uses TamperMonkey to add many features to YouTube
+# Uses TamperMonkey to add many features to YouTube
 
 # Current Features:
   - Option to disable new forced YouTube Polymer design
