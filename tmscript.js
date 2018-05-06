@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         TamperTubePlus
 // @namespace    https://github.com/Sv443/TamperTubePlus
-// @version      0.0.4
+// @version      0.0.5
 // @description  New YouTube features and general improvements
 // @author       Sv443
 // @match        *://www.youtube.com/*
-// @grant        none
+// @grant        GM_addStyle
 // @icon         http://sv443.net/favicons/tampertubeplusv4.ico
 // @run-at       document-start
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
@@ -16,12 +16,12 @@
 
 
 // you can change these settings if you want to:
-    var log_to_console = false; // log some debug info to the javascript console
-    var disable_polymer_design = true; // disables the new ugly, unresponsive polymer design if set to true
+    var log_to_console = true; // log some debug info to the javascript console (default: false)
+    var disable_polymer_design = true; // disables the new ugly, unresponsive polymer design if set to true (default: false)
     //var quick_bookmark_hotkey = 120; // hotkey for quick bookmark (default key: F9 (120)), to look up key codes go to this website: https://zeamedia.com/helper/javascript-key-codes-char-codes.php
     var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119)), to look up key codes go to this website: https://zeamedia.com/helper/javascript-key-codes-char-codes.php
-
-
+    var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
+    var adblocker = true; // block ads! (default: true)
 
 
 
@@ -141,5 +141,180 @@ function openc2mp3() {
         }
     }
 }
+
+
+console.log("    stylesheet: " + stylesheet);
+
+if(stylesheet == 1){
+GM_addStyle(`
+#eow-title {
+font-family: "Ubuntu", sans-serif;
+font-size: 20px;
+}
+
+.ytp-title-text {
+font-family: "Ubuntu", sans-serif;
+}
+
+#eow-title:hover {
+font-family: "Ubuntu", sans-serif;
+font-size: 20px;
+color: #787878;
+}
+
+.comment-section-header-renderer {
+font-family: "Ubuntu", sans-serif;
+}
+
+#watch-description {
+font-family: "Source Sans Pro", sans-serif;
+}
+
+#watch7-views-info {
+font-family: "Ubuntu", sans-serif;
+}
+
+.yt-user-info {
+font-family: "Ubuntu", sans-serif;
+font-size: 15px;
+}
+
+
+/*       resize player       */
+
+
+html .watch-stage-mode .player-width,
+html .watch-stage-mode #player
+  {
+    width: 100% !important;
+    width: calc(100vw - 18px) !important;
+    margin-left: 0 !important;
+    left: 0 !important;
+  }
+
+  html .watch-stage-mode #placeholder-player .player-width
+  {
+    width: 100% !important;
+  }
+
+  html .watch-stage-mode .player-height
+  {
+    height: 95vh !important;
+    height: calc(100vh - 52px - 18px) !important;
+  }
+
+  html .watch-stage-mode .ad-container,
+html .watch-stage-mode .html5-video-container,
+html .watch-stage-mode video.video-stream.html5-main-video
+  {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  html .watch-stage-mode .html5-video-container > .video-ads > .ad-container
+  {
+    bottom: 30px !important;
+    height: auto !important;
+  }
+
+  html .watch-stage-mode .ad-container.ad-overlay
+  {
+    top: auto !important;
+    height: auto !important;
+  }
+
+  html .watch-stage-mode #player-playlist .watch-playlist
+  {
+    top: calc(100vh - 52px - 18px - 360px) !important;
+    height: 480px !important;
+  }
+
+  html .watch-stage-mode .ytp-chrome-bottom
+  {
+    width: 100% !important;
+    width: calc(100% - 24px) !important;
+  }
+
+  #masthead-positioner
+  {
+    position: fixed !important;
+  }
+
+  #movie_player > .html5-video-controls > .html5-player-chrome
+  {
+    background: linear-gradient(to bottom, rgba(27,27,27,0) 0%, rgba(27,27,27,0.5) 100%);
+  }
+
+
+/*       make scrollbar smaller       */
+
+
+  ::-webkit-scrollbar
+  {
+    width: 7px;
+    background-color: #f1f1f1;
+  }
+
+  body::-webkit-scrollbar
+  {
+    width: 8px!important;
+    background-color: #EEEEEE;
+  }
+
+  ::-webkit-scrollbar-track
+  {
+    border: 7px;
+  }
+
+  body::-webkit-scrollbar-track
+  {
+    border: none;
+  }
+
+  ::-webkit-scrollbar-thumb
+  {
+    background-color: #424242!important;
+    border-radius: 0px!important;
+    border: none;
+  }
+
+  ::-webkit-scrollbar-thumb:hover
+  {
+    background-color: #333!important;
+  }
+
+  ::-webkit-scrollbar-thumb:active
+  {
+    background-color: #616161!important;
+  }
+`);
+}
+
+if(adblocker == true){
+GM_addStyle(`
+  #ad_creative_1
+  {
+    height: 0;
+    padding-top: 20px;
+    visibility: hidden;
+  }
+
+  #homepage-sidebar-ads
+  {
+    height: 0!important;
+    min-height: 0!important;
+    visibility: hidden;
+  }
+
+  #watch-channel-brand-div
+  {
+    height: 0!important;
+    visibility: hidden;
+  }
+`);
+}
+
 
 if(log_to_console == true){console.log("--END TamperTubePlus");}
