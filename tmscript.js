@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TamperTubePlus
 // @namespace    https://github.com/Sv443/TamperTubePlus
-// @version      0.0.1
+// @version      0.0.2
 // @description  New YouTube features and general improvements
 // @author       Sv443
 // @match        *://www.youtube.com/*
@@ -25,11 +25,11 @@ var disable_polymer_design = true; // disables the new ugly polymer design if se
 
 
 
-
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
 var curURL = URLhost + "" + URLpath;
 
+console.log("TamperMonkey:");
 
 if(disable_polymer_design = true){
     // this script is not made by me but by /u/ndogw and davidbailey95 (https://github.com/davidbailey95)
@@ -75,6 +75,7 @@ if(disable_polymer_design = true){
             return null;
         }
     });
+    console.log("    Disabled Polymer Design");
 }
 
 
