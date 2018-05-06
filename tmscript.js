@@ -1,12 +1,15 @@
 // ==UserScript==
 // @name         TamperTubePlus
 // @namespace    https://github.com/Sv443/TamperTubePlus
-// @version      0.0.3
+// @version      0.0.4
 // @description  New YouTube features and general improvements
 // @author       Sv443
 // @match        *://www.youtube.com/*
 // @grant        none
+// @icon         http://sv443.net/favicons/tampertubeplusv4.ico
 // @run-at       document-start
+// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
+// @require      http://sv443.net/js/tampertubeplus.js
 // @downloadURL  https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
 // @updateURL    https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
 // ==/UserScript==
