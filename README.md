@@ -3,7 +3,8 @@
 
 # Current Features:
   - Option to disable new forced YouTube Polymer design
-  - Make a quick bookmark with a hotkey
+  - Make a quick bookmark with a hotkey (currently disabled)
+  - Seamless file download with a hotkey rather than a button
 
 
 # Setup:
@@ -16,4 +17,5 @@
 
 
 # Hotkeys (changeable):
+  - F8: Quick download (enter file format and a new window with the download opens)
   - F9: Quick bookmark (doesn't work yet)
