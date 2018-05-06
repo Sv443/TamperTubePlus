@@ -11,6 +11,7 @@
 // @updateURL    https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
 // ==/UserScript==
 
+var log_to_console = true; // log some debug info to the javascript console
 var disable_polymer_design = true; // disables the new ugly polymer design if set to true
 //var quick_bookmark_hotkey = 120; // hotkey for quick bookmark (default key: F9 (120)), to look up key codes go to this website: https://zeamedia.com/helper/javascript-key-codes-char-codes.php
 
@@ -29,7 +30,7 @@ var URLhost = window.location.host;
 var URLpath = window.location.pathname;
 var curURL = URLhost + "" + URLpath;
 
-console.log("TamperMonkey:");
+if(log_to_console = true){console.log("TamperMonkey:");}
 
 if(disable_polymer_design = true){
     // this script is not made by me but by /u/ndogw and davidbailey95 (https://github.com/davidbailey95)
@@ -75,7 +76,7 @@ if(disable_polymer_design = true){
             return null;
         }
     });
-    console.log("    Disabled Polymer Design");
+    if(log_to_console = true){console.log("    Disabled Polymer Design");}
 }
 
 
