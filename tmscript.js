@@ -14,7 +14,7 @@
 
 // you can change these settings if you want to:
     var log_to_console = false; // log some debug info to the javascript console
-    var disable_polymer_design = true; // disables the new ugly polymer design if set to true
+    var disable_polymer_design = true; // disables the new ugly, unresponsive polymer design if set to true
     //var quick_bookmark_hotkey = 120; // hotkey for quick bookmark (default key: F9 (120)), to look up key codes go to this website: https://zeamedia.com/helper/javascript-key-codes-char-codes.php
     var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119)), to look up key codes go to this website: https://zeamedia.com/helper/javascript-key-codes-char-codes.php
 
@@ -37,7 +37,7 @@ queryString = queryString.substring(1);
 
 if(log_to_console == true){console.log("--BEGIN TamperTubePlus");}
 
-if(disable_polymer_design = true){
+if(disable_polymer_design == true){
     // this script is not made by me but by /u/ndogw and davidbailey95 (https://github.com/davidbailey95)
     function changeUrl(url, always) {
         if (url.indexOf("disable_polymer") === -1) {
