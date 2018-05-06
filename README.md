@@ -5,6 +5,8 @@
   - Option to disable new forced YouTube Polymer design
   - Make a quick bookmark with a hotkey (currently disabled)
   - Seamless file download with a hotkey rather than a button
+  - Change the default CSS stylesheet to a better one, including a bigger theater video player
+  - Block ads if you want to
 
 
 # Setup:
