@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TamperTubePlus
 // @namespace    https://github.com/Sv443/TamperTubePlus
-// @version      0.0.7
+// @version      0.0.8
 // @description  New YouTube features and general improvements
 // @author       Sv443
 // @match        *://www.youtube.com/*
@@ -19,7 +19,6 @@
 // you can change these settings if you want to:
     var log_to_console = true; // log some debug info to the javascript console (default: false)
     var disable_polymer_design = true; // disables the new ugly, unresponsive polymer design if set to true (default: false)
-    //var quick_bookmark_hotkey = 120; // hotkey for quick bookmark (default key: F9 (120)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
     var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
     var search_hotkey = 115; // hotkey for quick search (default key: F4 (115)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
     var search_engine = 1; // change search engines for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
@@ -33,7 +32,7 @@
 
 /*Init                                                                Init                                                                Init*/
 
-var ttp_version = "0.0.7";
+var ttp_version = "0.0.8";
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
 var curURL = URLhost + "" + URLpath;
@@ -96,33 +95,6 @@ if(disable_polymer_design == true){
 }
 
 
-/*Bookmark                                                                Bookmark                                                                Bookmark*/
-
-/* DISABLED
-document.addEventListener("keyup", function(e){
-	if(e.keyCode == quick_bookmark_hotkey) {
-        if(log_to_console == true){console.log("    registered keystroke: " + quick_bookmark_hotkey);}
-        var title = prompt("Bookmark Title");
-        var url = curURL;
-        function bookmark(title, url) {
-            if(document.all) { // ie
-                window.external.AddFavorite(url, title);
-            }
-            else if(window.sidebar) { // firefox
-                window.sidebar.addPanel(title, url, "");
-            }
-            else if(window.opera && window.print) { // opera
-                var elem = document.createElement("a");
-                elem.setAttribute("href",url);
-                elem.setAttribute("title",title);
-                elem.setAttribute("rel","sidebar");
-                elem.click(); // this.title=document.title;
-            }
-        }
-    }
-});*/
-
-
 /*Video Downloader                                                                Video Downloader                                                                Video Downloader*/
 
 document.addEventListener("keyup", function(f){
@@ -167,20 +139,27 @@ document.addEventListener("keyup", function(g){
     if(g.keyCode == search_hotkey) {
         if(log_to_console == true){console.log("    registered keystroke: " + search_hotkey);}
         var search_string = prompt("Enter search string:");
-        if(search_engine == 1 && search_string != ""){
-            window.open("https://google.com/search?q=" + search_string);
-        }
-        else if(search_engine == 2 && search_string != ""){
-            window.open("https://duckduckgo.com/search?q=" + search_string);
-        }
-        else if(search_engine == 3 && search_string != ""){
-            window.open("https://bing.com/search?q=" + search_string);
-        }
-        else if(search_engine == 4 && search_string != ""){
-            window.open("https://search.yahoo.com/search?p=" + search_string);
-        }
-        else if(search_string != "") {
-            alert("Wrong search engine chosen!\nPlease go to the TamperTubePlus script and change the settings at the top!");
+        if(search_string != null && search_string != "null" && search_string != ""){
+            if(search_engine == 1){
+                window.open("https://google.com/search?q=" + search_string);
+                if(log_to_console == true){console.log("    searched for '" + search_string + "' in google");}
+            }
+            else if(search_engine == 2){
+                window.open("https://duckduckgo.com/search?q=" + search_string);
+                if(log_to_console == true){console.log("    searched for '" + search_string + "' in duckduckgo");}
+            }
+            else if(search_engine == 3){
+                window.open("https://bing.com/search?q=" + search_string);
+                if(log_to_console == true){console.log("    searched for '" + search_string + "' in bing");}
+            }
+            else if(search_engine == 4){
+                window.open("https://search.yahoo.com/search?p=" + search_string);
+                if(log_to_console == true){console.log("    searched for '" + search_string + "' in yahoo");}
+            }
+            else {
+                alert("Wrong search engine chosen!\nPlease go to the TamperTubePlus script and change the settings at the top!");
+                if(log_to_console == true){console.log("    wrong search engine chosen");}
+            }
         }
     }
 });
@@ -189,6 +168,7 @@ document.addEventListener("keyup", function(g){
 /*Adblock                                                                Adblock                                                                Adblock*/
 
 if(adblocker == true){
+if(log_to_console == true){console.log("    blocked ads");}
 GM_addStyle(`
   #ad_creative_1
   {
@@ -215,7 +195,7 @@ GM_addStyle(`
 
 /*CSS Stylesheets                                                                CSS Stylesheets                                                                CSS Stylesheets*/
 
-console.log("    stylesheet: " + stylesheet);
+console.log("    applying stylesheet " + stylesheet);
 
 if(stylesheet == 1){
 GM_addStyle(`
