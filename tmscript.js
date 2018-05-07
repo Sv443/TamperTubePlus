@@ -33,7 +33,7 @@
 
 /*Init                                                                Init                                                                Init*/
 
-var ttp_version = "0.0.6";
+var ttp_version = "0.0.7";
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
 var curURL = URLhost + "" + URLpath;
@@ -166,19 +166,20 @@ function openc2mp3() {
 document.addEventListener("keyup", function(g){
     if(g.keyCode == search_hotkey) {
         if(log_to_console == true){console.log("    registered keystroke: " + search_hotkey);}
-        if(search_engine == 1){
-            window.open("https://google.com/search?q=" + prompt("Enter Google search string:"));
+        var search_string = prompt("Enter search string:");
+        if(search_engine == 1 && search_string != ""){
+            window.open("https://google.com/search?q=" + search_string);
         }
-        else if(search_engine == 2){
-            window.open("https://duckduckgo.com/search?q=" + prompt("Enter DuckDuckGo search string:"));
+        else if(search_engine == 2 && search_string != ""){
+            window.open("https://duckduckgo.com/search?q=" + search_string);
         }
-        else if(search_engine == 3){
-            window.open("https://bing.com/search?q=" + prompt("Enter Bing search string:"));
+        else if(search_engine == 3 && search_string != ""){
+            window.open("https://bing.com/search?q=" + search_string);
         }
-        else if(search_engine == 4){
-            window.open("search.yahoo.com/search?p=" + prompt("Enter Yahoo search string:"));
+        else if(search_engine == 4 && search_string != ""){
+            window.open("https://search.yahoo.com/search?p=" + search_string);
         }
-        else {
+        else if(search_string != "") {
             alert("Wrong search engine chosen!\nPlease go to the TamperTubePlus script and change the settings at the top!");
         }
     }
