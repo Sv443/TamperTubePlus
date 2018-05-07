@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TamperTubePlus
 // @namespace    https://github.com/Sv443/TamperTubePlus
-// @version      0.0.6
+// @version      0.0.7
 // @description  New YouTube features and general improvements
 // @author       Sv443
 // @match        *://www.youtube.com/*
@@ -17,11 +17,12 @@
 /*Settings                                                                Settings                                                                Settings*/
 
 // you can change these settings if you want to:
-    var log_to_console = false; // log some debug info to the javascript console (default: false)
-    var disable_polymer_design = false; // disables the new ugly, unresponsive polymer design if set to true (default: false)
+    var log_to_console = true; // log some debug info to the javascript console (default: false)
+    var disable_polymer_design = true; // disables the new ugly, unresponsive polymer design if set to true (default: false)
     //var quick_bookmark_hotkey = 120; // hotkey for quick bookmark (default key: F9 (120)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
     var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
-    var stylesheet = 0; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
+    var search_hotkey = 115; // hotkey for quick googe search (default key: F4 (115)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
+    var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
     var adblocker = true; // block ads! (default: true)
 
 
@@ -157,6 +158,16 @@ function openc2mp3() {
         }
     }
 }
+
+
+/*Google Search                                                                Google Search                                                                Google Search*/
+
+document.addEventListener("keyup", function(g){
+    if(g.keyCode == search_hotkey) {
+        if(log_to_console == true){console.log("    registered keystroke: " + search_hotkey);}
+        window.open("https://google.com/search?q=" + prompt("Google Search String"));
+    }
+});
 
 
 /*Adblock                                                                Adblock                                                                Adblock*/
