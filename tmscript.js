@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TamperTubePlus
 // @namespace    https://github.com/Sv443/TamperTubePlus
-// @version      0.0.5
+// @version      0.0.6
 // @description  New YouTube features and general improvements
 // @author       Sv443
 // @match        *://www.youtube.com/*
@@ -9,17 +9,18 @@
 // @icon         http://sv443.net/favicons/tampertubeplusv4.ico
 // @run-at       document-start
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @require      http://sv443.net/js/tampertubeplus.js
 // @downloadURL  https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
 // @updateURL    https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
 // ==/UserScript==
 
 
+/*Settings                                                                Settings                                                                Settings*/
+
 // you can change these settings if you want to:
     var log_to_console = true; // log some debug info to the javascript console (default: false)
     var disable_polymer_design = true; // disables the new ugly, unresponsive polymer design if set to true (default: false)
-    //var quick_bookmark_hotkey = 120; // hotkey for quick bookmark (default key: F9 (120)), to look up key codes go to this website: https://zeamedia.com/helper/javascript-key-codes-char-codes.php
-    var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119)), to look up key codes go to this website: https://zeamedia.com/helper/javascript-key-codes-char-codes.php
+    //var quick_bookmark_hotkey = 120; // hotkey for quick bookmark (default key: F9 (120)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
+    var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
     var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
     var adblocker = true; // block ads! (default: true)
 
@@ -28,9 +29,9 @@
 
 
 
+/*Init                                                                Init                                                                Init*/
 
-
-
+var ttp_version = "0.0.5";
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
 var curURL = URLhost + "" + URLpath;
@@ -38,7 +39,12 @@ var queryString = window.location.search;
 queryString = queryString.substring(1);
 
 
-if(log_to_console == true){console.log("--BEGIN TamperTubePlus");}
+console.log("TamperTubePlus v" + ttp_version + " by Sv443 / Sven Fehler");
+
+if(log_to_console == true){console.log("--BEGIN TamperTubePlus Debug");}
+
+
+/*Disable Polymer                                                                Disable Polymer                                                                Disable Polymer*/
 
 if(disable_polymer_design == true){
     // this script is not made by me but by /u/ndogw and davidbailey95 (https://github.com/davidbailey95)
@@ -87,6 +93,9 @@ if(disable_polymer_design == true){
     if(log_to_console == true){console.log("    Disabled Polymer Design");}
 }
 
+
+/*Bookmark                                                                Bookmark                                                                Bookmark*/
+
 /* DISABLED
 document.addEventListener("keyup", function(e){
 	if(e.keyCode == quick_bookmark_hotkey) {
@@ -111,8 +120,15 @@ document.addEventListener("keyup", function(e){
     }
 });*/
 
+
+/*Video Downloader                                                                Video Downloader                                                                Video Downloader*/
+
 document.addEventListener("keyup", function(f){
-    if(f.keyCode == download_hotkey) {
+    if(f.keyCode == download_hotkey && URLpath == "/watch") {
+        if(log_to_console == true){console.log("    registered keystroke: " + download_hotkey);}
+        openc2mp3();
+    }
+    if(f.keyCode == download_hotkey && URLpath == "/subscribe_embed") {
         if(log_to_console == true){console.log("    registered keystroke: " + download_hotkey);}
         openc2mp3();
     }
@@ -142,6 +158,35 @@ function openc2mp3() {
     }
 }
 
+
+/*Adblock                                                                Adblock                                                                Adblock*/
+
+if(adblocker == true){
+GM_addStyle(`
+  #ad_creative_1
+  {
+    height: 0;
+    padding-top: 20px;
+    visibility: hidden;
+  }
+
+  #homepage-sidebar-ads
+  {
+    height: 0!important;
+    min-height: 0!important;
+    visibility: hidden;
+  }
+
+  #watch-channel-brand-div
+  {
+    height: 0!important;
+    visibility: hidden;
+  }
+`);
+}
+
+
+/*CSS Stylesheets                                                                CSS Stylesheets                                                                CSS Stylesheets*/
 
 console.log("    stylesheet: " + stylesheet);
 
@@ -292,29 +337,7 @@ html .watch-stage-mode video.video-stream.html5-main-video
 `);
 }
 
-if(adblocker == true){
-GM_addStyle(`
-  #ad_creative_1
-  {
-    height: 0;
-    padding-top: 20px;
-    visibility: hidden;
-  }
 
-  #homepage-sidebar-ads
-  {
-    height: 0!important;
-    min-height: 0!important;
-    visibility: hidden;
-  }
-
-  #watch-channel-brand-div
-  {
-    height: 0!important;
-    visibility: hidden;
-  }
-`);
-}
-
+/*End                                                                End                                                                End*/
 
 if(log_to_console == true){console.log("--END TamperTubePlus");}
