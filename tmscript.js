@@ -21,7 +21,8 @@
     var disable_polymer_design = true; // disables the new ugly, unresponsive polymer design if set to true (default: false)
     //var quick_bookmark_hotkey = 120; // hotkey for quick bookmark (default key: F9 (120)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
     var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
-    var search_hotkey = 115; // hotkey for quick googe search (default key: F4 (115)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
+    var search_hotkey = 115; // hotkey for quick search (default key: F4 (115)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
+    var search_engine = 1; // change search engines for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
     var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
     var adblocker = true; // block ads! (default: true)
 
@@ -160,12 +161,26 @@ function openc2mp3() {
 }
 
 
-/*Google Search                                                                Google Search                                                                Google Search*/
+/*Quick Search                                                                Quick Search                                                                Quick Search*/
 
 document.addEventListener("keyup", function(g){
     if(g.keyCode == search_hotkey) {
         if(log_to_console == true){console.log("    registered keystroke: " + search_hotkey);}
-        window.open("https://google.com/search?q=" + prompt("Google Search String"));
+        if(search_engine == 1){
+            window.open("https://google.com/search?q=" + prompt("Enter Google search string:"));
+        }
+        else if(search_engine == 2){
+            window.open("https://duckduckgo.com/search?q=" + prompt("Enter DuckDuckGo search string:"));
+        }
+        else if(search_engine == 3){
+            window.open("https://bing.com/search?q=" + prompt("Enter Bing search string:"));
+        }
+        else if(search_engine == 4){
+            window.open("search.yahoo.com/search?p=" + prompt("Enter Yahoo search string:"));
+        }
+        else {
+            alert("Wrong search engine chosen!\nPlease go to the TamperTubePlus script and change the settings at the top!");
+        }
     }
 });
 
