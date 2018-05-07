@@ -5,7 +5,7 @@
   - Option to disable new forced YouTube Polymer design
   - Make a quick bookmark with a hotkey (currently disabled)
   - Seamless file download with a hotkey rather than a button
-  - Quick Google/DuckDuckGo search with a hotkey
+  - Quick Google/DuckDuckGo/Bing search with a hotkey
   - Change the default CSS stylesheet to a better one, including a bigger theater video player
   - Block ads if you want to
 
