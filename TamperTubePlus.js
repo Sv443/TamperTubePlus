@@ -1,29 +1,38 @@
 // ==UserScript==
-// @name         TamperTubePlus
-// @namespace    https://github.com/Sv443/TamperTubePlus
-// @version      0.0.8
-// @description  New YouTube features and general improvements
-// @author       Sv443
-// @match        *://www.youtube.com/*
-// @grant        GM_addStyle
-// @icon         http://sv443.net/favicons/tampertubeplusv4.ico
-// @run-at       document-start
-// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @downloadURL  https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
-// @updateURL    https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
+// @name          TamperTubePlus
+// @namespace     https://github.com/Sv443/TamperTubePlus
+// @version       0.0.10
+// @description   New YouTube features and general improvements
+// @author        Sv443
+// @match         *://www.youtube.com/*
+// @grant         GM_addStyle
+// @grant         unsafeWindow
+// @icon          http://sv443.net/favicons/tampertubeplusv4.ico
+// @run-at        document-start
+// @require       https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
+// @connect       self
+// @connect       *
+// @connect       sv443.net
+// @downloadURL   https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
+// @updateURL     https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
 // ==/UserScript==
 
 
 /*Settings                                                                Settings                                                                Settings*/
 
 // you can change these settings if you want to:
-    var log_to_console = true; // log some debug info to the javascript console (default: false)
-    var disable_polymer_design = true; // disables the new ugly, unresponsive polymer design if set to true (default: false)
-    var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
-    var search_hotkey = 115; // hotkey for quick search (default key: F4 (115)), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
-    var search_engine = 1; // change search engines for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
+    var log_to_console = true; // log some debug info to the javascript console if set to true (default: false)
+    var disable_polymer_design = true; // disables the new forced polymer design if set to true (default: false)
+    var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119), 0 to disable), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
+    var search_hotkey = 115; // hotkey for quick search (default key: F4 (115), 0 to disable), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
+    var search_engine = 1; // change search engine for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
     var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
-    var adblocker = true; // block ads! (default: true)
+    var adblocker = true; // blocks ads if set to true (default: true)
+
+
+
+
+
 
 
 
@@ -32,7 +41,7 @@
 
 /*Init                                                                Init                                                                Init*/
 
-var ttp_version = "0.0.8";
+var ttp_version = "0.0.10";
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
 var curURL = URLhost + "" + URLpath;
@@ -102,7 +111,7 @@ document.addEventListener("keyup", function(f){
         if(log_to_console == true){console.log("    registered keystroke: " + download_hotkey);}
         openc2mp3();
     }
-    if(f.keyCode == download_hotkey && URLpath == "/subscribe_embed") {
+    else if(f.keyCode == download_hotkey && URLpath == "/subscribe_embed") {
         if(log_to_console == true){console.log("    registered keystroke: " + download_hotkey);}
         openc2mp3();
     }
