@@ -6,7 +6,6 @@
   - Seamless file download with a hotkey rather than a button
   - Quick Google/DuckDuckGo/Bing/Yahoo search with a hotkey
   - Change the default CSS stylesheet to a better one, including a bigger theater video player
-  - Block ads if you want to
 
 
 # Setup:
