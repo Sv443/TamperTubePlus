@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          TamperTubePlus
 // @namespace     https://github.com/Sv443/TamperTubePlus
-// @version       0.0.10
+// @version       1.0
 // @description   New YouTube features and general improvements
 // @author        Sv443
 // @match         *://www.youtube.com/*
@@ -13,9 +13,11 @@
 // @connect       self
 // @connect       *
 // @connect       sv443.net
-// @downloadURL   https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
-// @updateURL     https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js
+// @downloadURL   https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/TamperTubePlus.js
+// @updateURL     https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/TamperTubePlus.js
 // ==/UserScript==
+
+(function() {
 
 
 /*Settings                                                                Settings                                                                Settings*/
@@ -27,7 +29,6 @@
     var search_hotkey = 115; // hotkey for quick search (default key: F4 (115), 0 to disable), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
     var search_engine = 1; // change search engine for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
     var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
-    var adblocker = true; // blocks ads if set to true (default: true)
 
 
 
@@ -172,34 +173,6 @@ document.addEventListener("keyup", function(g){
         }
     }
 });
-
-
-/*Adblock                                                                Adblock                                                                Adblock*/
-
-if(adblocker == true){
-if(log_to_console == true){console.log("    blocked ads");}
-GM_addStyle(`
-  #ad_creative_1
-  {
-    height: 0;
-    padding-top: 20px;
-    visibility: hidden;
-  }
-
-  #homepage-sidebar-ads
-  {
-    height: 0!important;
-    min-height: 0!important;
-    visibility: hidden;
-  }
-
-  #watch-channel-brand-div
-  {
-    height: 0!important;
-    visibility: hidden;
-  }
-`);
-}
 
 
 /*CSS Stylesheets                                                                CSS Stylesheets                                                                CSS Stylesheets*/
@@ -357,3 +330,4 @@ html .watch-stage-mode video.video-stream.html5-main-video
 /*End                                                                End                                                                End*/
 
 if(log_to_console == true){console.log("--END TamperTubePlus");}
+})();
