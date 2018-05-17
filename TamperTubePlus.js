@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          TamperTubePlus
 // @namespace     https://github.com/Sv443/TamperTubePlus
-// @version       1.0
+// @version       1.0.1
 // @description   New YouTube features and general improvements
 // @author        Sv443
 // @match         *://www.youtube.com/*
@@ -18,6 +18,7 @@
 // ==/UserScript==
 
 (function() {
+    'use strict';
 
 
 /*Settings                                                                Settings                                                                Settings*/
@@ -42,7 +43,7 @@
 
 /*Init                                                                Init                                                                Init*/
 
-var ttp_version = "0.0.10";
+var ttp_version = "1.0.1";
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
 var curURL = URLhost + "" + URLpath;
@@ -50,7 +51,7 @@ var queryString = window.location.search;
 queryString = queryString.substring(1);
 
 
-console.log("TamperTubePlus v" + ttp_version + " by Sv443 / Sven Fehler");
+console.log("TamperTubePlus v" + ttp_version + " by Sv443 / Sven Fehler - GitHub: https://github.com/sv443/");
 
 if(log_to_console == true){console.log("--BEGIN TamperTubePlus Debug");}
 
@@ -109,11 +110,11 @@ if(disable_polymer_design == true){
 
 document.addEventListener("keyup", function(f){
     if(f.keyCode == download_hotkey && URLpath == "/watch") {
-        if(log_to_console == true){console.log("    registered keystroke: " + download_hotkey);}
+        if(log_to_console == true){console.log("    registered download keystroke: " + download_hotkey);}
         openc2mp3();
     }
     else if(f.keyCode == download_hotkey && URLpath == "/subscribe_embed") {
-        if(log_to_console == true){console.log("    registered keystroke: " + download_hotkey);}
+        if(log_to_console == true){console.log("    registered download keystroke: " + download_hotkey);}
         openc2mp3();
     }
 });
@@ -147,7 +148,7 @@ function openc2mp3() {
 
 document.addEventListener("keyup", function(g){
     if(g.keyCode == search_hotkey) {
-        if(log_to_console == true){console.log("    registered keystroke: " + search_hotkey);}
+        if(log_to_console == true){console.log("    registered search keystroke: " + search_hotkey);}
         var search_string = prompt("Enter search string:");
         if(search_string != null && search_string != "null" && search_string != ""){
             if(search_engine == 1){
@@ -177,7 +178,7 @@ document.addEventListener("keyup", function(g){
 
 /*CSS Stylesheets                                                                CSS Stylesheets                                                                CSS Stylesheets*/
 
-console.log("    applying stylesheet " + stylesheet);
+if(log_to_console == true){console.log("    applying stylesheet " + stylesheet);}
 
 if(stylesheet == 1){
 GM_addStyle(`
