@@ -21,5 +21,12 @@ Hotkeys (changeable):
 
     F4: Quick search (change search engine in settings)
     F8: Quick download (enter file format and a new window with the download opens)
+
+  
+Planned Features:
+
+    Fix adblock and add it again
+    Display video tags in the description
+    Add buttons to download as mp3, wav and mp4 (most used formats)
     
 If you encounter any issue or want to suggest something please visit this page, thank you! (https://github.com/Sv443/TamperTubePlus/issues)
