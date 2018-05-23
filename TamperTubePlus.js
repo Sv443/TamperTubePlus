@@ -24,13 +24,13 @@
 /*Settings                                                                Settings                                                                Settings*/
 
 // you can change these settings if you want to:
-    var log_to_console = true; // log some debug info to the javascript console if set to true (default: false)
-    var disable_polymer_design = true; // disables the new forced polymer design if set to true (default: false)
+    var log_to_console = false; // log some debug info to the javascript console if set to true (default: false)
+    var disable_polymer_design = false; // disables the new forced polymer design if set to true (default: false)
     var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119), 0 to disable), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
     var search_hotkey = 115; // hotkey for quick search (default key: F4 (115), 0 to disable), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
     var radio_hotkey = 113;
     var search_engine = 1; // change search engine for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
-    var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
+    var stylesheet = 0; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
 
 
 
