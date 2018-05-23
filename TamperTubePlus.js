@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          TamperTubePlus
 // @namespace     https://github.com/Sv443/TamperTubePlus
-// @version       1.0.1
+// @version       1.1.0
 // @description   New YouTube features and general improvements
 // @author        Sv443
 // @match         *://www.youtube.com/*
@@ -28,6 +28,7 @@
     var disable_polymer_design = true; // disables the new forced polymer design if set to true (default: false)
     var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119), 0 to disable), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
     var search_hotkey = 115; // hotkey for quick search (default key: F4 (115), 0 to disable), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
+    var radio_hotkey = 113;
     var search_engine = 1; // change search engine for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
     var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
 
@@ -43,7 +44,7 @@
 
 /*Init                                                                Init                                                                Init*/
 
-var ttp_version = "1.0.1";
+var ttp_version = "1.1.0";
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
 var curURL = URLhost + "" + URLpath;
@@ -326,6 +327,37 @@ html .watch-stage-mode video.video-stream.html5-main-video
   }
 `);
 }
+
+
+/*Start Radio                                                                Start Radio                                                                Start Radio*/
+
+var finalmixplhref = "not retrieved yet";
+document.addEventListener("DOMContentLoaded", function() {
+    var mixpl = document.getElementsByClassName('mix-playlist');
+    var mixplhref;
+    for(var i = 0; i < mixpl.length; i++) {
+        mixplhref = mixpl[i].href;
+    }
+
+    if(mixplhref == "undefined" || mixplhref == undefined || mixplhref == "null" || mixplhref == null){
+        return;
+    }
+    else {
+        finalmixplhref = mixplhref;
+    }
+    if(log_to_console == true){console.log("    href of mixplaylist: " + finalmixplhref);}
+    document.addEventListener("keyup", function(h){
+        if(h.keyCode == radio_hotkey) {
+            if(log_to_console == true){console.log("    registered radio keystroke: " + radio_hotkey);}
+            if(mixplhref == "undefined" || mixplhref == undefined || mixplhref == "null" || mixplhref == null){
+                alert("This video doesn't have a mix playlist available");
+            }
+            else{
+                window.location.replace(finalmixplhref);
+            }
+        }
+    });
+});
 
 
 /*End                                                                End                                                                End*/
