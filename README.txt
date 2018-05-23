@@ -6,6 +6,7 @@ Current Features:
     Option to disable new forced YouTube Polymer design
     Seamless file download with a hotkey rather than a button
     Quick Google/DuckDuckGo/Bing/Yahoo search with a hotkey
+    Open your video's mix playlist if it is available via hotkey
     Change the default CSS stylesheet to a better one, including a bigger theater video player
 
 Setup:
@@ -19,6 +20,7 @@ Setup:
 
 Hotkeys (changeable):
 
+    F2: Open music mix playlist if it is available
     F4: Quick search (change search engine in settings)
     F8: Quick download (enter file format and a new window with the download opens)
 
