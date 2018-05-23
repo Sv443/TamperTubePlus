@@ -5,7 +5,7 @@
   - Option to disable new forced YouTube Polymer design
   - Seamless file download with a hotkey rather than a button
   - Quick Google/DuckDuckGo/Bing/Yahoo search with a hotkey
-  - Open your video's mix playlist if it is available
+  - Open your video's mix playlist if it is available via hotkey
   - Change the default CSS stylesheet to a better one, including a bigger theater video player
 
 
