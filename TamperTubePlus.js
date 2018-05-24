@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          TamperTubePlus
 // @namespace     https://github.com/Sv443/TamperTubePlus
-// @version       1.1.0
+// @version       1.2.0
 // @description   New YouTube features and general improvements
 // @author        Sv443
 // @match         *://www.youtube.com/*
@@ -10,9 +10,12 @@
 // @icon          http://sv443.net/favicons/tampertubeplusv4.ico
 // @run-at        document-start
 // @require       https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
+// @require       https://raw.githubusercontent.com/Sv443/code/master/versions.js
 // @connect       self
 // @connect       *
 // @connect       sv443.net
+// @connect       raw.githubusercontent.com
+// @connect       github.com
 // @downloadURL   https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/TamperTubePlus.js
 // @updateURL     https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/TamperTubePlus.js
 // ==/UserScript==
@@ -20,15 +23,15 @@
 (function() {
     'use strict';
 
-
 /*Settings                                                                Settings                                                                Settings*/
 
 // you can change these settings if you want to:
     var log_to_console = false; // log some debug info to the javascript console if set to true (default: false)
     var disable_polymer_design = false; // disables the new forced polymer design if set to true (default: false)
-    var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119), 0 to disable), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
-    var search_hotkey = 115; // hotkey for quick search (default key: F4 (115), 0 to disable), to look up key codes go to this website: https://zeamedia.de/helper/javascript-key-codes-char-codes.php
-    var radio_hotkey = 113;
+    var enable_ui = true; // enable the user interface with buttons and additional information (default: true)
+    var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
+    var search_hotkey = 115; // hotkey for quick search (default key: F4 (115), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
+    var radio_hotkey = 113; // hotkey to activate the video's radio mix playlist (default key: F2 (113), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
     var search_engine = 1; // change search engine for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
     var stylesheet = 0; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
 
@@ -44,16 +47,15 @@
 
 /*Init                                                                Init                                                                Init*/
 
-var ttp_version = "1.1.0";
+var curversion = "1.2.0";
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
 var curURL = URLhost + "" + URLpath;
 var queryString = window.location.search;
 queryString = queryString.substring(1);
 
-
-console.log("TamperTubePlus v" + ttp_version + " by Sv443 / Sven Fehler - GitHub: https://github.com/sv443/");
-
+console.log("TamperTubePlus v" + curversion + " - available version: " + ttp_version + " by Sv443 / Sven Fehler - GitHub: https://github.com/sv443/"); //ttp_version is defined through the @require línk
+console.log("Debug enabled: " + log_to_console);
 if(log_to_console == true){console.log("--BEGIN TamperTubePlus Debug");}
 
 
@@ -107,6 +109,30 @@ if(disable_polymer_design == true){
 }
 
 
+/*UI Elements                                                                UI Elements                                                                UI Elements*/
+
+if(enable_ui == true && disable_polymer_design == true){
+    document.addEventListener("DOMContentLoaded", function() {
+        var versiondisplayelem = document.createElement ('div');
+        versiondisplayelem.innerHTML = '<div id="versiondisplay" style="text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;'
+        + 'font-size:12px;text-align:right;position:absolute;top:10px;right:5px;"><span style="color:#aa0000;">TamperTubePlus by Sv443</span><br>'
+        + 'current version: ' + curversion + ' - most recent available version: ' + ttp_version + '<br>' //ttp_version is defined through the @require línk
+        + '<a href="https://github.com/sv443/tampertubeplus">GitHub</a></div>';
+
+        document.body.appendChild(versiondisplayelem);
+        document.getElementById("watch-uploader-info").appendChild(versiondisplayelem);
+
+        var dlbuttons = document.createElement ('div');
+        dlbuttons.innerHTML = '<div style="position:absolute;left:50%;top:0px;"><button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp3&url=' + curURL + queryString + "'" + ')" title="Download as MP3" role="button" data-tooltip-text="Download as MP3"><span style="font-size:15px;" class="yt-uix-button-content">MP3</span></button>'
+        + '<img style="position:relative;top:8px;" src="http://sv443.net/images/qdl.png" width="25px" height="25px"></img>'
+        + '<button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp4&url=' + curURL + queryString + "'" + ')" title="Download as MP4" role="button" data-tooltip-text="Download as MP4"><span style="font-size:15px;" class="yt-uix-button-content">MP4</span></button></div>';
+
+        document.body.appendChild(dlbuttons);
+        document.getElementById("watch8-action-buttons").appendChild(dlbuttons);
+    });
+}
+
+
 /*Video Downloader                                                                Video Downloader                                                                Video Downloader*/
 
 document.addEventListener("keyup", function(f){
@@ -130,6 +156,10 @@ function openc2mp3() {
         if(dl_format == null || dl_format == "" || dl_format == "null"){
             if(log_to_console == true){console.log("    download - cancelled operation");}
             return null;
+        }
+        else if(dl_format == "succ"){
+            if(log_to_console == true){console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");}
+            window.open("http://sv443.net/succ");
         }
         else{
             if(log_to_console == true){console.log("    download - entered wrong file format: " + dl_format);}
@@ -175,6 +205,39 @@ document.addEventListener("keyup", function(g){
         }
     }
 });
+
+
+/*Start Radio                                                                Start Radio                                                                Start Radio*/
+
+if(disable_polymer_design == true){
+    var finalmixplhref = "not retrieved yet";
+    document.addEventListener("DOMContentLoaded", function() {
+        var mixpl = document.getElementsByClassName('mix-playlist');
+        var mixplhref;
+        for(var i = 0; i < mixpl.length; i++) {
+            mixplhref = mixpl[i].href;
+        }
+
+        if(mixplhref == "undefined" || mixplhref == undefined || mixplhref == "null" || mixplhref == null){
+            return;
+        }
+        else {
+            finalmixplhref = mixplhref;
+        }
+        if(log_to_console == true){console.log("    href of mixplaylist: " + finalmixplhref);}
+        document.addEventListener("keyup", function(h){
+            if(h.keyCode == radio_hotkey) {
+                if(log_to_console == true){console.log("    registered radio keystroke: " + radio_hotkey);}
+                if(mixplhref == "undefined" || mixplhref == undefined || mixplhref == "null" || mixplhref == null){
+                    alert("This video doesn't have a mix playlist available");
+                }
+                else{
+                    window.location.replace(finalmixplhref);
+                }
+            }
+        });
+    });
+}
 
 
 /*CSS Stylesheets                                                                CSS Stylesheets                                                                CSS Stylesheets*/
@@ -327,37 +390,6 @@ html .watch-stage-mode video.video-stream.html5-main-video
   }
 `);
 }
-
-
-/*Start Radio                                                                Start Radio                                                                Start Radio*/
-
-var finalmixplhref = "not retrieved yet";
-document.addEventListener("DOMContentLoaded", function() {
-    var mixpl = document.getElementsByClassName('mix-playlist');
-    var mixplhref;
-    for(var i = 0; i < mixpl.length; i++) {
-        mixplhref = mixpl[i].href;
-    }
-
-    if(mixplhref == "undefined" || mixplhref == undefined || mixplhref == "null" || mixplhref == null){
-        return;
-    }
-    else {
-        finalmixplhref = mixplhref;
-    }
-    if(log_to_console == true){console.log("    href of mixplaylist: " + finalmixplhref);}
-    document.addEventListener("keyup", function(h){
-        if(h.keyCode == radio_hotkey) {
-            if(log_to_console == true){console.log("    registered radio keystroke: " + radio_hotkey);}
-            if(mixplhref == "undefined" || mixplhref == undefined || mixplhref == "null" || mixplhref == null){
-                alert("This video doesn't have a mix playlist available");
-            }
-            else{
-                window.location.replace(finalmixplhref);
-            }
-        }
-    });
-});
 
 
 /*End                                                                End                                                                End*/
