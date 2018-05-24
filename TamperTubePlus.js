@@ -10,7 +10,6 @@
 // @icon          http://sv443.net/favicons/tampertubeplusv4.ico
 // @run-at        document-start
 // @require       https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @require       https://raw.githubusercontent.com/Sv443/code/master/versions.js
 // @connect       self
 // @connect       *
 // @connect       sv443.net
@@ -54,7 +53,7 @@ var curURL = URLhost + "" + URLpath;
 var queryString = window.location.search;
 queryString = queryString.substring(1);
 
-console.log("TamperTubePlus v" + curversion + " - available version: " + ttp_version + " by Sv443 / Sven Fehler - GitHub: https://github.com/sv443/"); //ttp_version is defined through the @require línk
+console.log("TamperTubePlus v" + curversion + " - by Sv443 / Sven Fehler - GitHub: https://github.com/sv443/"); //ttp_version is defined through the @require línk
 console.log("Debug enabled: " + log_to_console);
 if(log_to_console == true){console.log("--BEGIN TamperTubePlus Debug");}
 
@@ -116,7 +115,7 @@ if(enable_ui == true && disable_polymer_design == true){
         var versiondisplayelem = document.createElement ('div');
         versiondisplayelem.innerHTML = '<div id="versiondisplay" style="text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;'
         + 'font-size:12px;text-align:right;position:absolute;top:10px;right:5px;"><span style="color:#aa0000;">TamperTubePlus by Sv443</span><br>'
-        + 'current version: ' + curversion + ' - most recent available version: ' + ttp_version + '<br>' //ttp_version is defined through the @require línk
+        + 'current version: ' + curversion + '<br>'
         + '<a href="https://github.com/sv443/tampertubeplus">GitHub</a></div>';
 
         document.body.appendChild(versiondisplayelem);
