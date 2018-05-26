@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          TamperTubePlus
 // @namespace     https://github.com/Sv443/TamperTubePlus
-// @version       1.2.0
+// @version       1.3.0
 // @description   New YouTube features and general improvements
 // @author        Sv443
 // @match         *://www.youtube.com/*
@@ -13,26 +13,29 @@
 // @connect       self
 // @connect       *
 // @connect       sv443.net
-// @connect       raw.githubusercontent.com
-// @connect       github.com
 // @downloadURL   https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/TamperTubePlus.js
 // @updateURL     https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/TamperTubePlus.js
+// @license       MIT
+// @copyright     2018, Sv443 (https://github.com/Sv443)
 // ==/UserScript==
 
-(function() {
-    'use strict';
+/*===============================<---------------------------------------------------------------->===============================*/
+/*===============================< TamperTubePlus by Sv443/Sven Fehler (https://github.com/Sv443) >===============================*/
+/*===============================<---------------------------------------------------------------->===============================*/
 
-/*Settings                                                                Settings                                                                Settings*/
+
+/*Settings                                Settings                                Settings                                Settings                                Settings*/
 
 // you can change these settings if you want to:
-    var log_to_console = false; // log some debug info to the javascript console if set to true (default: false)
-    var disable_polymer_design = false; // disables the new forced polymer design if set to true (default: false)
+    var log_to_console = true; // log some debug info to the javascript console if set to true (default: false)
+    var enable_version_watermark = true; // enable or disable the version watermark in the top right of the video description (default: true), UI needs to be enabled for the watermark to show up
+    var disable_polymer_design = true; // disables the new forced polymer design if set to true (default: false)
     var enable_ui = true; // enable the user interface with buttons and additional information (default: true)
     var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
     var search_hotkey = 115; // hotkey for quick search (default key: F4 (115), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
     var radio_hotkey = 113; // hotkey to activate the video's radio mix playlist (default key: F2 (113), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
-    var search_engine = 1; // change search engine for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
-    var stylesheet = 0; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player)
+    var search_engine = 2; // change search engine for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
+    var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player for old youtube design)
 
 
 
@@ -43,24 +46,28 @@
 
 
 
+
+(function() {
+    'use strict';
 
 /*Init                                                                Init                                                                Init*/
 
-var curversion = "1.2.0";
+var curversion = "1.2.1";
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
 var curURL = URLhost + "" + URLpath;
 var queryString = window.location.search;
 queryString = queryString.substring(1);
+var watermarkcontent = "";
 
 console.log("TamperTubePlus v" + curversion + " - by Sv443 / Sven Fehler - GitHub: https://github.com/sv443/"); //ttp_version is defined through the @require línk
 console.log("Debug enabled: " + log_to_console);
-if(log_to_console == true){console.log("--BEGIN TamperTubePlus Debug");}
+if(log_to_console){console.log("--BEGIN TamperTubePlus Debug");}
 
 
 /*Disable Polymer                                                                Disable Polymer                                                                Disable Polymer*/
 
-if(disable_polymer_design == true){
+if(disable_polymer_design){
     // this script is not made by me but by /u/ndogw and davidbailey95 (https://github.com/davidbailey95)
     function changeUrl(url, always) {
         if (url.indexOf("disable_polymer") === -1) {
@@ -104,30 +111,60 @@ if(disable_polymer_design == true){
             return null;
         }
     });
-    if(log_to_console == true){console.log("    Disabled Polymer Design");}
+    if(log_to_console){console.log("    Disabled Polymer Design");}
 }
 
 
 /*UI Elements                                                                UI Elements                                                                UI Elements*/
 
-if(enable_ui == true && disable_polymer_design == true){
+if(enable_ui && disable_polymer_design){
     document.addEventListener("DOMContentLoaded", function() {
-        var versiondisplayelem = document.createElement ('div');
-        versiondisplayelem.innerHTML = '<div id="versiondisplay" style="text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;'
-        + 'font-size:12px;text-align:right;position:absolute;top:10px;right:5px;"><span style="color:#aa0000;">TamperTubePlus by Sv443</span><br>'
-        + 'current version: ' + curversion + '<br>'
-        + '<a href="https://github.com/sv443/tampertubeplus">GitHub</a></div>';
+        if(enable_version_watermark){
+            var versiondisplayelem = document.createElement ('div');
+            versiondisplayelem.innerHTML = '<div id="versiondisplay" style="text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;'
+            + 'font-size:12px;text-align:right;position:absolute;top:10px;right:5px;"><span style="color:#aa0000;">TamperTubePlus by Sv443</span><br>'
+            + 'v' + curversion + '<br>'
+            + '<a href="https://github.com/sv443/tampertubeplus">GitHub</a></div>';
 
-        document.body.appendChild(versiondisplayelem);
-        document.getElementById("watch-uploader-info").appendChild(versiondisplayelem);
+            document.body.appendChild(versiondisplayelem);
+            document.getElementById("watch-uploader-info").appendChild(versiondisplayelem);
+        }
 
-        var dlbuttons = document.createElement ('div');
-        dlbuttons.innerHTML = '<div style="position:absolute;left:50%;top:0px;"><button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp3&url=' + curURL + queryString + "'" + ')" title="Download as MP3" role="button" data-tooltip-text="Download as MP3"><span style="font-size:15px;" class="yt-uix-button-content">MP3</span></button>'
+
+        var dlbuttonelem = document.createElement ('div');
+        dlbuttonelem.innerHTML = '<div style="position:absolute;left:50%;top:0px;"><button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp3&url=' + curURL + queryString + "'" + ')" title="Download as MP3" role="button" data-tooltip-text="Download as MP3"><span style="font-size:15px;" class="yt-uix-button-content">MP3</span></button>'
         + '<img style="position:relative;top:8px;" src="http://sv443.net/images/qdl.png" width="25px" height="25px"></img>'
         + '<button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp4&url=' + curURL + queryString + "'" + ')" title="Download as MP4" role="button" data-tooltip-text="Download as MP4"><span style="font-size:15px;" class="yt-uix-button-content">MP4</span></button></div>';
 
-        document.body.appendChild(dlbuttons);
-        document.getElementById("watch8-action-buttons").appendChild(dlbuttons);
+        document.body.appendChild(dlbuttonelem);
+        document.getElementById("watch8-action-buttons").appendChild(dlbuttonelem);
+
+
+        var footerelem = document.createElement ('div');
+        footerelem.innerHTML = '&nbsp;&nbsp;&nbsp;TamperTubePlus v' + curversion + ' - &copy; 2018 <a href="https://github.com/sv443" target="_blank">Sven Fehler / Sv443</a>';
+
+        document.body.appendChild(footerelem);
+        if(log_to_console){console.log("    loaded all ui elements for old youtube design");}
+    });
+}
+else if(!disable_polymer_design){
+    document.addEventListener("DOMContentLoaded", function() {
+        window.onload = function(){
+            if(enable_version_watermark){
+                watermarkcontent = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:15px;"><span style="color:#aa0000;">TamperTubePlus by Sv443</span>&nbsp;-&nbsp;'
+                + 'v' + curversion + '&nbsp;-&nbsp;'
+                + '<a href="https://github.com/sv443/tampertubeplus">GitHub</a></span>';
+            }
+
+
+            var dlbuttonelem = document.createElement('div');
+            dlbuttonelem.innerHTML = '<div style="position:fixed;z-index:50000;left:2px;bottom:2px;"><img style="position:relative;top:8px;" src="http://sv443.net/images/qdl.png" width="25px" height="25px"></img>'
+            + '<button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp3&url=' + curURL + queryString + "'" + ')" title="Download as MP3" role="button" data-tooltip-text="Download as MP3"><span style="font-size:15px;" class="yt-uix-button-content">MP3</span></button>'
+            + '<button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp4&url=' + curURL + queryString + "'" + ')" title="Download as MP4" role="button" data-tooltip-text="Download as MP4"><span style="font-size:15px;" class="yt-uix-button-content">MP4</span></button>'
+            + watermarkcontent + '</div>';
+            document.body.appendChild(dlbuttonelem);
+            if(log_to_console){console.log("    loaded all ui elements for new youtube design");}
+        }
     });
 }
 
@@ -135,12 +172,12 @@ if(enable_ui == true && disable_polymer_design == true){
 /*Video Downloader                                                                Video Downloader                                                                Video Downloader*/
 
 document.addEventListener("keyup", function(f){
-    if(f.keyCode == download_hotkey && URLpath == "/watch") {
-        if(log_to_console == true){console.log("    registered download keystroke: " + download_hotkey);}
+    if(f.keyCode == download_hotkey && URLpath.includes("/watch")) {
+        if(log_to_console){console.log("    registered download keystroke: " + download_hotkey);}
         openc2mp3();
     }
-    else if(f.keyCode == download_hotkey && URLpath == "/subscribe_embed") {
-        if(log_to_console == true){console.log("    registered download keystroke: " + download_hotkey);}
+    else if(f.keyCode == download_hotkey && URLpath.includes("/subscribe_embed")) {
+        if(log_to_console){console.log("    registered download keystroke: " + download_hotkey);}
         openc2mp3();
     }
 });
@@ -148,26 +185,26 @@ document.addEventListener("keyup", function(f){
 function openc2mp3() {
     var dl_format = prompt("Download video - choose format\nAvailable Options: mp3,m4a,aac,flac,ogg,wma,mp4,avi,wmv,3gp");
     if(dl_format == "mp3" || dl_format == "m4a" || dl_format == "aac" || dl_format == "flac" || dl_format == "ogg" || dl_format == "wma" || dl_format == "mp4" || dl_format == "avi" || dl_format == "wmv" || dl_format == "3gp"){
-        if(log_to_console == true){console.log("    download - entered correct file format: " + dl_format + ", downloading...");}
+        if(log_to_console){console.log("    download - entered correct file format: " + dl_format + ", downloading...");}
+        windowname = "Download as " + dl_format;
         window.open("http://convert2mp3.net/addon_call.php?format=" + dl_format + "&url=" + curURL + queryString);
     }
     else {
-        if(dl_format == null || dl_format == "" || dl_format == "null"){
-            if(log_to_console == true){console.log("    download - cancelled operation");}
+        if(dl_format === null || dl_format === "" || dl_format == "null"){
+            if(log_to_console){console.log("    download - cancelled operation");}
             return null;
         }
         else if(dl_format == "succ"){
-            if(log_to_console == true){console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");}
+            if(log_to_console){console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");console.log("SUCC");}
             window.open("http://sv443.net/succ");
         }
         else{
-            if(log_to_console == true){console.log("    download - entered wrong file format: " + dl_format);}
+            if(log_to_console){console.log("    download - entered wrong file format: " + dl_format);}
             var confirmretry = confirm("Entered value does not match available file formats (mp3,m4a,aac,flac,ogg,wma,mp4,avi,wmv,3gp)\nTry again?");
-            if(confirmretry == true){
-                openc2mp3();
+            if(confirmretry){
             }
             else {
-                if(log_to_console == true){console.log("    download - cancelled operation after retrying");}
+                if(log_to_console){console.log("    download - cancelled operation after retrying");}
             }
         }
     }
@@ -178,28 +215,28 @@ function openc2mp3() {
 
 document.addEventListener("keyup", function(g){
     if(g.keyCode == search_hotkey) {
-        if(log_to_console == true){console.log("    registered search keystroke: " + search_hotkey);}
+        if(log_to_console){console.log("    registered search keystroke: " + search_hotkey);}
         var search_string = prompt("Enter search string:");
-        if(search_string != null && search_string != "null" && search_string != ""){
+        if(search_string !== null && search_string !== "null" && search_string !== ""){
             if(search_engine == 1){
                 window.open("https://google.com/search?q=" + search_string);
-                if(log_to_console == true){console.log("    searched for '" + search_string + "' in google");}
+                if(log_to_console){console.log("    searched for '" + search_string + "' in google");}
             }
             else if(search_engine == 2){
-                window.open("https://duckduckgo.com/search?q=" + search_string);
-                if(log_to_console == true){console.log("    searched for '" + search_string + "' in duckduckgo");}
+                window.open("https://duckduckgo.com/?q=" + search_string);
+                if(log_to_console){console.log("    searched for '" + search_string + "' in duckduckgo");}
             }
             else if(search_engine == 3){
                 window.open("https://bing.com/search?q=" + search_string);
-                if(log_to_console == true){console.log("    searched for '" + search_string + "' in bing");}
+                if(log_to_console){console.log("    searched for '" + search_string + "' in bing");}
             }
             else if(search_engine == 4){
                 window.open("https://search.yahoo.com/search?p=" + search_string);
-                if(log_to_console == true){console.log("    searched for '" + search_string + "' in yahoo");}
+                if(log_to_console){console.log("    searched for '" + search_string + "' in yahoo");}
             }
             else {
                 alert("Wrong search engine chosen!\nPlease go to the TamperTubePlus script and change the settings at the top!");
-                if(log_to_console == true){console.log("    wrong search engine chosen");}
+                if(log_to_console){console.log("    wrong search engine chosen");}
             }
         }
     }
@@ -208,8 +245,9 @@ document.addEventListener("keyup", function(g){
 
 /*Start Radio                                                                Start Radio                                                                Start Radio*/
 
-if(disable_polymer_design == true){
-    var finalmixplhref = "not retrieved yet";
+var finalmixplhref;
+if(disable_polymer_design){
+    finalmixplhref = "not retrieved yet";
     document.addEventListener("DOMContentLoaded", function() {
         var mixpl = document.getElementsByClassName('mix-playlist');
         var mixplhref;
@@ -217,17 +255,17 @@ if(disable_polymer_design == true){
             mixplhref = mixpl[i].href;
         }
 
-        if(mixplhref == "undefined" || mixplhref == undefined || mixplhref == "null" || mixplhref == null){
+        if(mixplhref == "undefined" || mixplhref === undefined || mixplhref == "null" || mixplhref === null){
             return;
         }
         else {
             finalmixplhref = mixplhref;
         }
-        if(log_to_console == true){console.log("    href of mixplaylist: " + finalmixplhref);}
+        if(log_to_console){console.log("    href of mixplaylist: " + finalmixplhref);}
         document.addEventListener("keyup", function(h){
             if(h.keyCode == radio_hotkey) {
-                if(log_to_console == true){console.log("    registered radio keystroke: " + radio_hotkey);}
-                if(mixplhref == "undefined" || mixplhref == undefined || mixplhref == "null" || mixplhref == null){
+                if(log_to_console){console.log("    registered radio keystroke: " + radio_hotkey);}
+                if(mixplhref == "undefined" || mixplhref === undefined || mixplhref == "null" || mixplhref === null){
                     alert("This video doesn't have a mix playlist available");
                 }
                 else{
@@ -237,14 +275,16 @@ if(disable_polymer_design == true){
         });
     });
 }
-
+else if(disable_polymer_design === false){
+    if(log_to_console){console.log("    quick radio mix playlist feature disabled for new design");}
+}
 
 /*CSS Stylesheets                                                                CSS Stylesheets                                                                CSS Stylesheets*/
 
-if(log_to_console == true){console.log("    applying stylesheet " + stylesheet);}
+if(log_to_console){console.log("    applying stylesheet " + stylesheet);}
 
 if(stylesheet == 1){
-GM_addStyle(`
+new GM_addStyle(`
 #eow-title {
 font-family: "Ubuntu", sans-serif;
 font-size: 20px;
@@ -393,5 +433,5 @@ html .watch-stage-mode video.video-stream.html5-main-video
 
 /*End                                                                End                                                                End*/
 
-if(log_to_console == true){console.log("--END TamperTubePlus");}
+if(log_to_console){console.log("--END TamperTubePlus");}
 })();
