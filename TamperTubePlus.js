@@ -49,7 +49,7 @@
 
 (function() {
     'use strict';
-
+ 
 /*Init                                                                Init                                                                Init*/
 
 var curversion = "1.2.1";
