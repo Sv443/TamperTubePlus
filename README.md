@@ -13,7 +13,7 @@
   - Install the TamperMonkey addon - Firefox: (https://tinyurl.com/ybed26ab), Chrome: (https://tinyurl.com/aqhkmex)
   - Click on the symbol at the top right, then create a new script and then delete the pre-made code
   - Copy everything (CTRL+A, then CTRL+C) from this website (https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/tmscript.js) to your newly made TamperMonkey script (CTRL+V)
-  - Edit the settings found at the top
+  - Edit the settings found near the top (around column 30)
   - Press CTRL+S
   - Enjoy the new features!
 
