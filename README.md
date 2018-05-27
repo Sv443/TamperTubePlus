@@ -27,4 +27,4 @@
 # Planned Features:
   - Fix adblock and add it again
   - Display video tags in the description
-  - Add buttons to download as mp3, wav and mp4 (most used formats)
+  - Quick bookmark a video to watch it later
