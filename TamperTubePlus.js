@@ -99,7 +99,7 @@ if(disable_polymer_design){
     changeUrl(url);
 
     document.addEventListener("DOMContentLoaded", function() {
-        // from https://stackoverflow.com/a/12552017/4247209
+        //  from https://stackoverflow.com/a/12552017/4247209
         document.body.onclick = function(e){
             e = e || event;
             var from = findParent("a",e.target || e.srcElement);
