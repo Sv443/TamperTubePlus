@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name          TamperTubePlus
 // @namespace     https://github.com/Sv443/TamperTubePlus
-// @version       1.3.0
+// @version       1.3.1
 // @description   New YouTube features and general improvements
 // @author        Sv443
 // @match         *://www.youtube.com/*
 // @grant         GM_addStyle
 // @grant         unsafeWindow
-// @icon          http://sv443.net/favicons/tampertubeplusv4.ico
+// @icon          https://sv443.github.io/code/resources/favicons/tampertubeplusv4.ico
 // @run-at        document-start
 // @require       https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @connect       self
@@ -19,24 +19,34 @@
 // @copyright     2018, Sv443 (https://github.com/Sv443)
 // ==/UserScript==
 
-/*===============================<---------------------------------------------------------------->===============================*/
-/*===============================< TamperTubePlus by Sv443/Sven Fehler (https://github.com/Sv443) >===============================*/
-/*===============================<---------------------------------------------------------------->===============================*/
+/*===============================<------------------------------------------------------------------------------>===============================*/
+/*===============================< TamperTubePlus - handwritten by Sv443/Sven Fehler (https://github.com/Sv443) >===============================*/
+/*===============================<------------------------------------------------------------------------------>===============================*/
 
 
 /*Settings                                Settings                                Settings                                Settings                                Settings*/
 
 // you can change these settings if you want to:
-    var log_to_console = false; // log some debug info to the javascript console if set to true (default: false)
-    var enable_version_watermark = true; // enable or disable the version watermark in the top right of the video description (default: true), UI needs to be enabled for the watermark to show up
-    var disable_polymer_design = false; // disables the new forced polymer design if set to true (default: false)
+    var log_to_console = true; // log some debug info to the javascript console if set to true (default: false)
+    var enable_version_watermark = true; // enable or disable the version watermark in the top right of the video description (old youtube design) or in the bottom left corner of your window (new youtube design) (default: true), UI needs to be enabled for the watermark to show up
+    var disable_polymer_design = true; // disables the new forced polymer design if set to true (default: false)
     var enable_ui = true; // enable the user interface with buttons and additional information (default: true)
     var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
     var search_hotkey = 115; // hotkey for quick search (default key: F4 (115), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
     var radio_hotkey = 113; // hotkey to activate the video's radio mix playlist (default key: F2 (113), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
-    var search_engine = 1; // change search engine for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
-    var stylesheet = 0; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player for old youtube design)
+    var search_engine = 2; // change search engine for quick search (0 to disable, 1 for google, 2 for duckduckgo, 3 for bing or 4 for yahoo)
+    var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player for old youtube design)
 
+
+
+/*Changelog                                Changelog                                Changelog                                Changelog                                Changelog*/
+
+// what's new in this version:
+// - fixed bug of ui showing up in embedded videos
+// - improved the overall ui design and made it uniform across the two youtube designs
+// - compacted and improved the code
+// - added this changelog
+// - changed external sources for resources to my github repo, because my server is down at the moment and is running more unstable than github
 
 
 
@@ -49,10 +59,10 @@
 
 (function() {
     'use strict';
- 
+
 /*Init                                                                Init                                                                Init*/
 
-var curversion = "1.2.1";
+var curversion = "1.3.1";
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
 var curURL = URLhost + "" + URLpath;
@@ -68,18 +78,19 @@ if(log_to_console){console.log("--BEGIN TamperTubePlus Debug");}
 /*Disable Polymer                                                                Disable Polymer                                                                Disable Polymer*/
 
 if(disable_polymer_design){
-    // this script is not made by me but by /u/ndogw and davidbailey95 (https://github.com/davidbailey95)
+    // this script is not made nor handwritten by me but by /u/ndogw and davidbailey95 (https://github.com/davidbailey95)
     function changeUrl(url, always) {
-        if (url.indexOf("disable_polymer") === -1) {
-            if (url.indexOf("?") > 0) {
+        if(url.indexOf("disable_polymer") === -1){
+            if(url.indexOf("?") > 0){
                 url += "&";
-            } else {
+            }
+            else {
                 url += "?";
             }
             url += "disable_polymer=1";
             window.location.href = url;
         }
-        if (always) {
+        if(always){
             window.location.href = url;
         }
     }
@@ -92,9 +103,9 @@ if(disable_polymer_design){
         document.body.onclick = function(e){
             e = e || event;
             var from = findParent("a",e.target || e.srcElement);
-            if (from) {
+            if(from){
                 var url = from.href;
-                if (!(url.match("/embed/") || url === location.href)) {
+                if(!(url.match("/embed/") || url === location.href)){
                     changeUrl(url, true);
                     return false;
                 }
@@ -117,50 +128,38 @@ if(disable_polymer_design){
 
 /*UI Elements                                                                UI Elements                                                                UI Elements*/
 
-if(enable_ui && disable_polymer_design){
+if(enable_ui && disable_polymer_design && !URLpath.includes("embed")){
     document.addEventListener("DOMContentLoaded", function() {
         if(enable_version_watermark){
-            var versiondisplayelem = document.createElement ('div');
-            versiondisplayelem.innerHTML = '<div id="versiondisplay" style="text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;'
-            + 'font-size:12px;text-align:right;position:absolute;top:10px;right:5px;"><span style="color:#aa0000;">TamperTubePlus by Sv443</span><br>'
-            + 'v' + curversion + '<br>'
-            + '<a href="https://github.com/sv443/tampertubeplus">GitHub</a></div>';
-
-            document.body.appendChild(versiondisplayelem);
-            document.getElementById("watch-uploader-info").appendChild(versiondisplayelem);
-        }
-
-
-        var dlbuttonelem = document.createElement ('div');
-        dlbuttonelem.innerHTML = '<div style="position:absolute;left:50%;top:0px;"><button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp3&url=' + curURL + queryString + "'" + ')" title="Download as MP3" role="button" data-tooltip-text="Download as MP3"><span style="font-size:15px;" class="yt-uix-button-content">MP3</span></button>'
-        + '<img style="position:relative;top:8px;" src="http://sv443.net/images/qdl.png" width="25px" height="25px"></img>'
-        + '<button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp4&url=' + curURL + queryString + "'" + ')" title="Download as MP4" role="button" data-tooltip-text="Download as MP4"><span style="font-size:15px;" class="yt-uix-button-content">MP4</span></button></div>';
-
-        document.body.appendChild(dlbuttonelem);
-        document.getElementById("watch8-action-buttons").appendChild(dlbuttonelem);
-
-
-        var footerelem = document.createElement ('div');
-        footerelem.innerHTML = '&nbsp;&nbsp;&nbsp;TamperTubePlus v' + curversion + ' - &copy; 2018 <a href="https://github.com/sv443" target="_blank">Sven Fehler / Sv443</a>';
-
-        document.body.appendChild(footerelem);
-        if(log_to_console){console.log("    loaded all ui elements for old youtube design");}
-    });
-}
-else if(!disable_polymer_design){
-    document.addEventListener("DOMContentLoaded", function() {
-        window.onload = function(){
-            if(enable_version_watermark){
-                watermarkcontent = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:15px;"><span style="color:#aa0000;">TamperTubePlus by Sv443</span>&nbsp;-&nbsp;'
+                watermarkcontent = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;font-size:13px;"><span style="color:#aa0000;">TamperTubePlus by Sv443</span>&nbsp;-&nbsp;'
                 + 'v' + curversion + '&nbsp;-&nbsp;'
                 + '<a href="https://github.com/sv443/tampertubeplus">GitHub</a></span>';
             }
 
 
             var dlbuttonelem = document.createElement('div');
-            dlbuttonelem.innerHTML = '<div style="position:fixed;z-index:50000;left:2px;bottom:2px;"><img style="position:relative;top:8px;" src="http://sv443.net/images/qdl.png" width="25px" height="25px"></img>'
-            + '<button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp3&url=' + curURL + queryString + "'" + ')" title="Download as MP3" role="button" data-tooltip-text="Download as MP3"><span style="font-size:15px;" class="yt-uix-button-content">MP3</span></button>'
-            + '<button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp4&url=' + curURL + queryString + "'" + ')" title="Download as MP4" role="button" data-tooltip-text="Download as MP4"><span style="font-size:15px;" class="yt-uix-button-content">MP4</span></button>'
+            dlbuttonelem.innerHTML = '<div style="position:fixed;z-index:50000;left:2px;bottom:2px;"><img style="position:relative;top:8px;" src="https://sv443.github.io/code/resources/images/qdl.png" width="25px" height="25px"></img>'
+            + '<button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp3&url=' + curURL + queryString + "'" + ')" title="Download as MP3" role="button" data-tooltip-text="Download as MP3"><span style="font-size:15px;" class="yt-uix-button-content">MP3</span></button>' // concatenation errors can't be fixed
+            + '<button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp4&url=' + curURL + queryString + "'" + ')" title="Download as MP4" role="button" data-tooltip-text="Download as MP4"><span style="font-size:15px;" class="yt-uix-button-content">MP4</span></button>' // concatenation errors can't be fixed
+            + '</div><div style="position:fixed;z-index:50000;left:120px;bottom:5px;">' + watermarkcontent + '</div>';
+            document.body.appendChild(dlbuttonelem);
+            if(log_to_console){console.log("    loaded all ui elements for old youtube design");}
+    });
+}
+else if(!disable_polymer_design && !URLpath.includes("embed")){
+    document.addEventListener("DOMContentLoaded", function() {
+        window.onload = function(){
+            if(enable_version_watermark){
+                watermarkcontent = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;font-size:15px;"><span style="color:#aa0000;">TamperTubePlus by Sv443</span>&nbsp;-&nbsp;'
+                + 'v' + curversion + '&nbsp;-&nbsp;'
+                + '<a href="https://github.com/sv443/tampertubeplus">GitHub</a></span>';
+            }
+
+
+            var dlbuttonelem = document.createElement('div');
+            dlbuttonelem.innerHTML = '<div style="position:fixed;z-index:50000;left:2px;bottom:2px;"><img style="position:relative;top:8px;" src="https://sv443.github.io/code/resources/images/qdl.png" width="25px" height="25px"></img>'
+            + '<button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp3&url=' + curURL + queryString + "'" + ')" title="Download as MP3" role="button" data-tooltip-text="Download as MP3"><span style="font-size:15px;" class="yt-uix-button-content">MP3</span></button>' // concatenation errors can't be fixed
+            + '<button class="yt-uix-button yt-uix-button-size-default yt-uix-button-opacity" type="button" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp4&url=' + curURL + queryString + "'" + ')" title="Download as MP4" role="button" data-tooltip-text="Download as MP4"><span style="font-size:15px;" class="yt-uix-button-content">MP4</span></button>' // concatenation errors can't be fixed
             + watermarkcontent + '</div>';
             document.body.appendChild(dlbuttonelem);
             if(log_to_console){console.log("    loaded all ui elements for new youtube design");}
@@ -186,7 +185,6 @@ function openc2mp3() {
     var dl_format = prompt("Download video - choose format\nAvailable Options: mp3,m4a,aac,flac,ogg,wma,mp4,avi,wmv,3gp");
     if(dl_format == "mp3" || dl_format == "m4a" || dl_format == "aac" || dl_format == "flac" || dl_format == "ogg" || dl_format == "wma" || dl_format == "mp4" || dl_format == "avi" || dl_format == "wmv" || dl_format == "3gp"){
         if(log_to_console){console.log("    download - entered correct file format: " + dl_format + ", downloading...");}
-        windowname = "Download as " + dl_format;
         window.open("http://convert2mp3.net/addon_call.php?format=" + dl_format + "&url=" + curURL + queryString);
     }
     else {
@@ -248,6 +246,7 @@ document.addEventListener("keyup", function(g){
 var finalmixplhref;
 if(disable_polymer_design){
     finalmixplhref = "not retrieved yet";
+    document.addEventListener("DOMContentLoaded", function() {if(document.getElementById('eow-title').innerHTML.includes("Avicii") || document.getElementById('eow-title').innerHTML.includes("avicii")){console.log("RIP Avicii");}});
     document.addEventListener("DOMContentLoaded", function() {
         var mixpl = document.getElementsByClassName('mix-playlist');
         var mixplhref;
