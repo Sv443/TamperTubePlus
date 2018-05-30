@@ -29,3 +29,4 @@
   - Display video tags in the description
   - Quick bookmark a video to watch it later
   - Translate the video title and description to your selected language
+  - Add a settings panel on youtube, not just in the script
