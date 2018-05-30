@@ -33,15 +33,15 @@
 // you can change these settings if you want to:
     var ttp_language = "en"; // change TTP's language (default: "en" (english)), ("en" for english, "de" for german)
 
-    var log_to_console = true; // log some debug info to the javascript console if set to true (default: false)
+    var log_to_console = false; // log some debug info to the javascript console if set to true (default: false)
 
     var enable_version_watermark = true; // enable or disable the version watermark in the bottom left corner of your window, UI needs to be enabled for the watermark to show up (default: true)
 
-    var disable_polymer_design = true; // disables the new forced polymer design if set to true (default: false)
+    var disable_polymer_design = false; // disables the new forced polymer design if set to true (default: false)
 
     var enable_ui = true; // enable the user interface with buttons and additional information (default: true)
 
-    var button_color = "blue"; // change the ui button colors (default: "red"), (possible: "red", "orange", "blue", "green")
+    var button_color = "red"; // change the ui button colors (default: "red"), (possible: "red", "orange", "blue", "green")
 
     var button_size = "normal"; // change the size of the ui buttons (default: "normal"), (possible: "small" (20px * 20px), "normal" (25px * 25px), "large" (35px * 35px))
 
@@ -51,9 +51,9 @@
 
     var radio_hotkey = 113; // hotkey to activate the video's radio mix playlist (default key: F2 (113), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
 
-    var search_engine = "duckduckgo"; // change search engine for quick search (default: "google") (possible: "disable", "google", "duckduckgo", "bing", "yahoo")
+    var search_engine = "google"; // change search engine for quick search (default: "google") (possible: "disable", "google", "duckduckgo", "bing", "yahoo")
 
-    var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player for old youtube design)
+    var stylesheet = 0; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player for old youtube design)
 
 
 
