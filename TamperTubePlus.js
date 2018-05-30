@@ -89,7 +89,7 @@
 
 
 /*Init                                                                Init                                                                Init*/
-
+ 
 var curversion = "1.4.0";
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
