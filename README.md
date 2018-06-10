@@ -27,6 +27,7 @@
 # Planned Features:
   - Fix adblock and add it again
   - Display video tags in the description
-  - Quick bookmark a video to watch it later
+  - Quick bookmark a video to watch it later (currently working on it)
   - Translate the video title and description to your selected language
-  - Add a settings panel on youtube, not just in the script
+  - Add a settings panel on youtube, not just in the script (currently working on it)
+  - Add an option to switch between /watch and /embed to maximize player size
