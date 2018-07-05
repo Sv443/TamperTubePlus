@@ -31,19 +31,19 @@
 
 // you can change these settings if you want to:
 var ttp_language = "en"; // change TTP's language (default: "en" (english)), ("en" for english, "de" for german)
-var log_to_console = true; // log some debug info to the javascript console if set to true (default: false)
-var enable_version_watermark = false; // enable or disable the version watermark in the bottom left corner of your window, UI needs to be enabled for the watermark to show up (default: true)
+var log_to_console = false; // log some debug info to the javascript console if set to true (default: false)
+var enable_version_watermark = true; // enable or disable the version watermark in the bottom left corner of your window, UI needs to be enabled for the watermark to show up (default: true)
 var disable_polymer_design = true; // disables the new forced polymer design if set to true (default: false) - to return to the new youtube design, disable this option and clear all cookies on youtube
 var enable_ui = true; // enable the user interface with buttons and additional information (default: true), menu can only be accessed if the ui is enabled
-var button_color = "blue"; // change the ui button colors (default: "red"), (possible: "red", "orange", "blue", "green")
+var button_color = "red"; // change the ui button colors (default: "red"), (possible: "red", "orange", "blue", "green")
 var button_size = "normal"; // change the size of the ui buttons (default: "normal"), (possible: "small" (20px * 20px), "normal" (25px * 25px), "large" (35px * 35px))
 var download_hotkey = 119; // hotkey for quick video download (default key: F8 (119), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
 var search_hotkey = 115; // hotkey for quick search (default key: F4 (115), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
 var radio_hotkey = 113; // hotkey to activate the video's radio mix playlist (default key: F2 (113), 0 to disable), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
 var closemenu_hotkey = 27; // hotkey to close the TTP menu (default key: ESC (27), 0 to disable (you can still click on the X)), to look up key codes go to this website: https://tinyurl.com/y73b8h3z
 var closemenu_button_position = "right"; // on which side at the top the menu close button should be (default: "right") (possible: "left", "right")
-var search_engine = "duckduckgo"; // change search engine for quick search (default: "google") (possible: "disable", "google", "ecosia" (plant trees through searches), "duckduckgo", "bing", "yahoo")
-var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player for old youtube design)
+var search_engine = "google"; // change search engine for quick search (default: "google") (possible: "disable", "google", "ecosia" (plant trees through searches), "duckduckgo", "bing", "yahoo")
+var stylesheet = 0; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player for old youtube design)
 
 
 
