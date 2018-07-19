@@ -32,3 +32,9 @@
 # Planned Features:
   - Fix adblock and add it again
   - Add a settings panel on youtube, not just in the script (currently working on it)
+
+
+# How to Report Bugs or Contribute to the Translations or Script:
+- If you want to report a bug, please post it as an issue here.
+- If you want to contribute by submitting a translation, please contact me via sven.fehler@web.de and I will send you the details.
+- If you want to send in code I could include in the script, please also contact me via sven.fehler@web.de and I will also send you the details on that. 
