@@ -1,25 +1,29 @@
 // ==UserScript==
-// @name          TamperTubePlus
-// @version       1.5.0
-// @description   New YouTube features and improvements
-// @namespace     https://github.com/Sv443/TamperTubePlus
-// @author        Sv443
-// @license       MIT
-// @copyright     2018, Sv443 (https://github.com/Sv443)
-// @match         http*://www.youtube.com/*
-// @grant         GM_addStyle
-// @grant         unsafeWindow
-// @grant         GM_listValues
-// @grant         GM_deleteValue
-// @grant         GM_setValue
-// @grant         GM_getValue
-// @icon          https://raw.githubusercontent.com/Sv443/code/master/resources/images/tampertubeplusv5_200x200.png
-// @run-at        document-start
-// @require       https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @connect       self
-// @connect       *
-// @downloadURL   https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/TamperTubePlus.js
-// @updateURL     https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/TamperTubePlus.js
+// @name           TamperTubePlus
+// @name:de        TamperTubePlus
+// @version        1.5.1
+// @description    New YouTube features and improvements
+// @description:de Neue YouTube Funktionen und Verbesserungen
+// @namespace      https://github.com/Sv443/TamperTubePlus
+// @author         Sv443
+// @license        MIT
+// @copyright      2018, Sv443 (https://github.com/Sv443)
+// @match          http*://www.youtube.com/*
+// @grant          GM_addStyle
+// @grant          GM_listValues
+// @grant          GM_deleteValue
+// @grant          GM_setValue
+// @grant          GM_getValue
+// @grant          GM_openInTab
+// @grant          GM_notification
+// @grant          GM_setClipboard
+// @icon           https://raw.githubusercontent.com/Sv443/code/master/resources/images/tampertubeplusv5_200x200.png
+// @run-at         document-start
+// @require        https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
+// @connect        self
+// @connect        *
+// @downloadURL    https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/TamperTubePlus.js
+// @updateURL      https://raw.githubusercontent.com/Sv443/TamperTubePlus/master/TamperTubePlus.js
 // ==/UserScript==
 
 
@@ -45,8 +49,6 @@
 
 
 
-
-
 /*\  \  \                          Settings                                Settings                                Settings                                Settings                      /  /  /*/
 /* \  \  \   Settings                                Settings                                Settings                                Settings                                Settings   /  /  / */
 /* /  /  /                         Settings                                Settings                                Settings                                Settings                     \  \  \ */
@@ -54,25 +56,25 @@
 
 
 
-
 //  Other
 
 var ttp_language = "en"; // change TTP's language (default: "en" (english)), ("en" for english, "de" for german)
-var log_to_console = false; // log some debug info to the javascript console if set to true (default: false), (possible: true, false)
-var search_engine = "google"; // change search engine for quick search (default: "google") (possible: "disable", "google", "ecosia" (plant trees through searches), "duckduckgo", "bing", "yahoo")
+var log_to_console = true; // log some debug info to the javascript console if set to true (default: false), (possible: true, false)
+var enable_notifications = true; // enable notifications - these will not be spammed and will only contain important messages, so I don't recommend to turn them off (default: true), (possible: true, false)
+var search_engine = "duckduckgo"; // change search engine for quick search (default: "google") (possible: "disable", "google", "ecosia" (plant trees through searches), "duckduckgo", "bing", "yahoo")
+var disable_info_cards_if_annotations_are_disabled = true; // disables info cards if the annotations are disabled in the player settings (default: false), (possible: true, false)
 
 
 
 //  Visual Stuff
 
-var enable_version_watermark = true; // enable or disable the version watermark in the bottom left corner of your window, UI needs to be enabled for the watermark to show up (default: true), (possible: true, false)
-var disable_polymer_design = false; // disables the new forced polymer design if set to true - to return to the new youtube design, disable this option and clear all cookies on youtube (default: false), (possible: true, false)
-var show_tags_in_description = true; // shows the video's tags in the description (currently not available for polymer design) (due to limitations you'll need to reload the page after you switch to a new video to see the correct tags) (default: true), (possible: true, false)
+//CURRENTLY DISABLED - var enable_version_watermark = false; // enable or disable the version watermark in the bottom left corner of your window, UI needs to be enabled for the watermark to show up (default: true), (possible: true, false)
+var disable_polymer_design = true; // disables the new forced polymer design if set to true - to return to the new youtube design, disable this option and clear all cookies on youtube (default: false), (possible: true, false)
+var show_tags_in_description = true; // shows the video's tags in the description (due to limitations you'll need to reload the page after you switch to a new video to see the correct tags) (default: true), (possible: true, false)
 var enable_ui = true; // enable the user interface with buttons and additional information, menu can only be accessed if the ui is enabled (default: true), (possible: true, false)
-var button_color = "red"; // change the ui button color (default: "red"), (possible: "red", "orange", "blue", "green")
-var button_size = "normal"; // change the size of the ui buttons (default: "normal"), (possible: "small" (20px * 20px), "normal" (25px * 25px), "large" (35px * 35px))
 var closemenu_button_position = "right"; // on which side at the top the menu close button should be (default: "right"), (possible: "left", "right")
-var stylesheet = 0; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player for old youtube design)
+var stylesheet = 1; // switch through stylesheets for YouTube (default: 0) (0: disabled) (1: AdvancedYT - improved design and bigger video player for old youtube design)
+var accent_color = "blue"; // changes the pages accent color (default (disabled): "red"), (possible: "red", "orange", "blue", "green, "yellow")
 
 
 
@@ -95,13 +97,19 @@ var closemenu_hotkey = 27; // hotkey to close the TTP menu (default key: ESC (27
 
 
 
-
 /*Changelog                                Changelog                                Changelog                                Changelog                                Changelog*/
 
 // what's new in this version:
-// - sorted settings
-// - added video tag display in the description
-// - added hotkey to switch between /watch and /embed to maximize player size
+//
+// - removed grant "unsafeWindow" due to being obsolete and unsafe
+// - added grant "notifications" to improve user experience
+// - added grant "setClipboard" to make the tags copyable to clipboard quickly
+// - removed radio mix playlist thingy due to incompatibility and also being obsolete
+// - improved localization
+// - adding cross (†) behind video title if it or description contains "avicii", "xxxtentacion" or "xxxternation", please tell me if I need to add more people to this list
+// - added changeable accent color
+// - reworked UI to be in the player control bar and not stand out as much
+// - removed quick bookmark feature due to also being obsolete (cmon, just press CTRL and D)
 
 
 
@@ -121,7 +129,7 @@ var closemenu_hotkey = 27; // hotkey to close the TTP menu (default key: ESC (27
 
 /*Init                                                                Init                                                                Init*/
 
-var curversion = "1.5.0";
+var curversion = GM_info.script.version;
 var error_content = "";
 var URLhost = window.location.host;
 var URLpath = window.location.pathname;
@@ -131,7 +139,7 @@ queryString = queryString.substring(1);
 var watermarkcontent = "";
 
 console.log("TamperTubePlus v" + curversion + " - by Sv443 / Sven Fehler - GitHub: https://github.com/sv443/");
-console.log("TamperTube Plus - Debug enabled: " + log_to_console);
+console.log("TamperTubePlus - Debug enabled: " + log_to_console);
 if(log_to_console) {
     console.log("--BEGIN TamperTubePlus Debug");
 }
@@ -140,10 +148,8 @@ if(log_to_console) {
 
 /*Languages                                                                Languages                                                                Languages*/
 
-var lang_dl_format;
-var lang_confirm_dl_retry;
-var lang_enter_search_string;
-var lang_no_mix_pl;
+var lang_dl_format, lang_confirm_dl_retry, lang_enter_search_string, lang_no_mix_pl, lang_copied_tags, lang_copy, lang_copy_title, lang_tag_reload_title, lang_reload_page, lang_to_show_new_tags, lang_open_ttp_menu;
+var lang_download_mp3, lang_download_mp4;
 switch (ttp_language) {
     case "en":
         chlang("en");
@@ -162,6 +168,15 @@ function chlang(lang){
         lang_confirm_dl_retry = "Entered value does not match available file formats (mp3,m4a,aac,flac,ogg,wma,mp4,avi,wmv,3gp)\nTry again?";
         lang_enter_search_string = "Enter search string:";
         lang_no_mix_pl = "This video doesn't have a mix playlist available";
+        lang_copied_tags = "Copied video tags to clipboard";
+        lang_copy = "Copy";
+        lang_copy_title = "Copy tags to clipboard";
+        lang_tag_reload_title = "YouTube limitation - page needs to be reloaded to show new tags";
+        lang_reload_page = "Reload page";
+        lang_to_show_new_tags = "to show new tags";
+        lang_open_ttp_menu = "Open the TamperTubePlus menu";
+        lang_download_mp3 = "Download as MP3";
+        lang_download_mp4 = "Download as MP4";
         if(log_to_console) {
             console.log("    loaded english language");
         }
@@ -171,10 +186,47 @@ function chlang(lang){
         lang_confirm_dl_retry = "Eingegebenes Format entspricht nicht den verfügbaren Formaten (mp3,m4a,aac,flac,ogg,wma,mp4,avi,wmv,3gp)\nErneut versuchen?";
         lang_enter_search_string = "Suchbegriff eingeben:";
         lang_no_mix_pl = "Dieses Video hat keine verfügbare Mix-Playlist";
+        lang_copied_tags = "Die Video-Tags wurden in die Zwischenablage kopiert";
+        lang_copy = "Kopieren";
+        lang_copy_title = "Kopiere Video-Tags in die Zwischenablage";
+        lang_tag_reload_title = "YouTube Limitation - Seite muss neu geladen werden, um neue Tags anzuzeigen";
+        lang_reload_page = "Seite neu laden,";
+        lang_to_show_new_tags = "um neue Tags anzuzeigen";
+        lang_open_ttp_menu = "Öffne das TamperTubePlus Menü";
+        lang_download_mp3 = "Lade als MP3 herunter";
+        lang_download_mp4 = "Lade als MP4 herunter";
         if(log_to_console) {
             console.log("    loaded german language");
         }
     }
+}
+
+var accent_rotation;
+switch(accent_color){
+    case "red":
+        accent_color = "ff0000";
+        accent_rotation = "0deg";
+        break;
+    case "orange":
+        accent_color = "ff7700";
+        accent_rotation = "0deg";
+        break;
+    case "blue":
+        accent_color = "0f57ff";
+        accent_rotation = "-130deg";
+        break;
+    case "green":
+        accent_color = "00840b";
+        accent_rotation = "150deg";
+        break;
+    case "yellow":
+        accent_color = "ffff00";
+        accent_rotation = "0deg";
+        break;
+    default:
+        accent_color = "ff0000";
+        accent_rotation = "0deg";
+        break;
 }
 
 
@@ -233,126 +285,47 @@ if(disable_polymer_design) {
 
 /*UI Elements                                                                UI Elements                                                                UI Elements*/
 
-var imgpathmp3;var imgpathspacer;var imgpathmp4;var imgpathmenu;var buttonsize;
-switch (button_size) { // (0 = small (20px * 20px), 1 = normal (25px * 25px), 2 = large (35px * 35px))
-    case "small":
-        buttonsize = 20;
-        if(log_to_console) {
-            console.log("    loaded button size of 20px");
-        }
-        break;
-    case "normal":
-        buttonsize = 25;
-        if(log_to_console) {
-            console.log("    loaded button size of 25px");
-        }
-        break;
-    case "large":
-        buttonsize = 35;
-        if(log_to_console) {
-            console.log("    loaded button size of 35px");
-        }
-        break;
-    default:
-        buttonsize = 25;
-        error_content = "incorrect button size value was chosen in the settings - loading default size of 25px instead";
-        if(log_to_console) {
-            console.log("    incorrect value was chosen in the settings - loading default button size of 25px");
-        }
-        break;
-}
-switch (button_color) {
-    case "orange":
-        imgpathmp3 = "https://sv443.github.io/code/resources/images/buttonleftmp3.png";
-        imgpathspacer = "https://sv443.github.io/code/resources/images/buttonmiddleraw.png";
-        imgpathmp4 = "https://sv443.github.io/code/resources/images/buttonrightmp4.png";
-        imgpathmenu = "https://sv443.github.io/code/resources/images/buttonmiddlemenu.png";
-        if(log_to_console) {
-            console.log("    loaded default (orange) button design");
-        }
-        break;
-    case "blue":
-        imgpathmp3 = "https://sv443.github.io/code/resources/images/buttonleftmp3_blue.png";
-        imgpathspacer = "https://sv443.github.io/code/resources/images/buttonmiddleraw_blue.png";
-        imgpathmp4 = "https://sv443.github.io/code/resources/images/buttonrightmp4_blue.png";
-        imgpathmenu = "https://sv443.github.io/code/resources/images/buttonmiddlemenu_blue.png";
-        if(log_to_console) {
-            console.log("    loaded blue button design");
-        }
-        break;
-    case "green":
-        imgpathmp3 = "https://sv443.github.io/code/resources/images/buttonleftmp3_green.png";
-        imgpathspacer = "https://sv443.github.io/code/resources/images/buttonmiddleraw_green.png";
-        imgpathmp4 = "https://sv443.github.io/code/resources/images/buttonrightmp4_green.png";
-        imgpathmenu = "https://sv443.github.io/code/resources/images/buttonmiddlemenu_green.png";
-        if(log_to_console) {
-            console.log("    loaded green button design");
-        }
-        break;
-    case "red":
-        imgpathmp3 = "https://sv443.github.io/code/resources/images/buttonleftmp3_red.png";
-        imgpathspacer = "https://sv443.github.io/code/resources/images/buttonmiddleraw_red.png";
-        imgpathmp4 = "https://sv443.github.io/code/resources/images/buttonrightmp4_red.png";
-        imgpathmenu = "https://sv443.github.io/code/resources/images/buttonmiddlemenu_red.png";
-        if(log_to_console) {
-            console.log("    loaded red button design");
-        }
-        break;
-    default:
-        imgpathmp3 = "https://sv443.github.io/code/resources/images/buttonleftmp3.png";
-        imgpathspacer = "https://sv443.github.io/code/resources/images/buttonmiddleraw.png";
-        imgpathmp4 = "https://sv443.github.io/code/resources/images/buttonrightmp4.png";
-        imgpathmenu = "https://sv443.github.io/code/resources/images/buttonmiddlemenu.png";
-        error_content = "incorrect button color value was chosen in the settings - loading default (orange) button color instead";
-        if(log_to_console) {
-            console.log("    incorrect value was chosen in the settings - loading default (orange) button design");
-        }
-        break;
-}
-if(enable_version_watermark) {
-    watermarkcontent = '<span style="text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;font-size:13px;"><a style="text-decoration:underline;color:red;" href="https://github.com/sv443/tampertubeplus" target="_blank">TamperTubePlus</a>&nbsp;-&nbsp;'
-    + 'v' + curversion;
-}
-
 if (enable_ui && disable_polymer_design && !URLpath.includes("embed") && URLpath.includes("watch")) {
-    document.addEventListener("DOMContentLoaded", function () {
-
-        var dlbuttonelem = document.createElement('div');
-        dlbuttonelem.innerHTML = '<div style="position:fixed;z-index:50000;left:4px;bottom:2px;">' +
-        '<img style="cursor:pointer" width="' + buttonsize + 'px" height="' + buttonsize + 'px" src="' + imgpathmp3 + '" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp3&url=' + curURL + queryString + "'" + ')" title="Download as MP3"></img>' // concatenation errors can't be fixed
-        + '<img width="10px" height="' + buttonsize + 'px" src="' + imgpathspacer + '"></img>' +
-        '<img id="menubtn" style="cursor:pointer" width="' + buttonsize + 'px" height="' + buttonsize + 'px" src="' + imgpathmenu + '" title="Open the TamperTubePlus Menu"></img>' // concatenation errors can't be fixed
-        + '<img width="10px" height="' + buttonsize + 'px" src="' + imgpathspacer + '"></img>' +
-        '<img style="cursor:pointer" width="px' + buttonsize + '" height="' + buttonsize + 'px" src="' + imgpathmp4 + '" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp4&url=' + curURL + queryString + "'" + ')" title="Download as MP4"></img>' // concatenation errors can't be fixed
-        + '</div><div style="position:fixed;z-index:50000;left:130px;bottom:5px;">' + watermarkcontent + '&nbsp;&nbsp;&nbsp;<span id="error_content" style="color:red;">' + error_content + '</span></div>';
-        document.body.appendChild(dlbuttonelem);
-        document.getElementById("menubtn").addEventListener("click", function () {
+    document.addEventListener("DOMContentLoaded", function(){//new ui design
+        var y = document.createElement("span");
+        y.id="ttp_download_mp3_span";
+        y.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="ttp_download_mp3" onclick="window.open(' + "'" + "http://convert2mp3.net/addon_call.php?format=mp3&url=" + curURL + "?" + queryString + "'" + ')" class="ytp-button" aria-pressed="false" title="' + lang_download_mp3 + '"><img style="padding:0.3vw;" src="https://raw.githubusercontent.com/Sv443/code/master/resources/images/newdlmp3.png" height="70%"></img></button>'
+            + '<button id="ttp_menu" onclick="" class="ytp-button" aria-pressed="false" title="Open TamperTubePlus Menu"><img style="padding:0.3vw;" src="https://raw.githubusercontent.com/Sv443/code/master/resources/favicons/tampertubeplusv5.png" height="70%"></img></button>'
+            + '<button id="ttp_download_mp4" onclick="window.open(' + "'" + "http://convert2mp3.net/addon_call.php?format=mp4&url=" + curURL + "?" + queryString + "'" + ')" class="ytp-button" aria-pressed="false" title="' + lang_download_mp4 + '"><img style="padding:0.3vw;" src="https://raw.githubusercontent.com/Sv443/code/master/resources/images/newdlmp4.png" height="70%"></img></button>';
+        document.getElementsByClassName("ytp-chrome-controls")[0].appendChild(y);
+        document.getElementById("ttp_menu").addEventListener("click", function () {
             openmenu();
         });
-        if(log_to_console) {
-            console.log("    loaded all ui elements for old youtube design");
-        }
     });
 }
 else if(enable_ui && !disable_polymer_design && !URLpath.includes("embed") && URLpath.includes("watch")) {
-    document.addEventListener("DOMContentLoaded", function () {
-        window.onload = function () {
-            var dlbuttonelem = document.createElement('div');
-            dlbuttonelem.innerHTML = '<div style="position:fixed;z-index:50000;left:2px;bottom:2px;">' +
-            '<img style="cursor:pointer" width="' + buttonsize + 'px" height="' + buttonsize + 'px" src="' + imgpathmp3 + '" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp3&url=' + curURL + queryString + "'" + ')" title="Download as MP3"></img>' // concatenation errors can't be fixed
-            + '<img width="10px" height="' + buttonsize + 'px" src="' + imgpathspacer + '"></img>' +
-            '<img style="cursor:pointer" width="' + buttonsize + 'px" height="' + buttonsize + 'px" src="' + imgpathmenu + '" onclick="" title="Download as MP3"></img>' // concatenation errors can't be fixed
-            + '<img width="10px" height="' + buttonsize + 'px" src="' + imgpathspacer + '"></img>' +
-            '<img style="cursor:pointer" width="px' + buttonsize + '" height="' + buttonsize + 'px" src="' + imgpathmp4 + '" onclick="window.open(' + "'" + 'http://convert2mp3.net/addon_call.php?format=mp4&url=' + curURL + queryString + "'" + ')" title="Download as MP4"></img>' // concatenation errors can't be fixed
-            + watermarkcontent + '&nbsp;&nbsp;&nbsp;<span id="error_content" style="color:red;">' + error_content + '</span></div>';
-            document.body.appendChild(dlbuttonelem);
-            document.getElementById("menubtn").addEventListener("click", function () {
-                openmenu();
-            });
-            if(log_to_console) {
-                console.log("    loaded all ui elements for new youtube design");
+    document.addEventListener("DOMContentLoaded", function(){//new ui design
+        var y = document.createElement("span");
+        y.id="ttp_download_mp3_span";
+        y.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="ttp_download_mp3" onclick="window.open(' + "'" + "http://convert2mp3.net/addon_call.php?format=mp3&url=" + curURL + "?" + queryString + "'" + ')" class="ytp-button" aria-pressed="false" title="' + lang_download_mp3 + '"><img style="padding:0.3vw;" src="https://raw.githubusercontent.com/Sv443/code/master/resources/images/newdlmp3.png" height="70%"></img></button>'
+            + '<button id="ttp_menu" class="ytp-button" aria-pressed="false" title="Open TamperTubePlus Menu"><img style="padding:0.3vw;" src="https://raw.githubusercontent.com/Sv443/code/master/resources/favicons/tampertubeplusv5.png" height="70%"></img></button>'
+            + '<button id="ttp_download_mp4" onclick="window.open(' + "'" + "http://convert2mp3.net/addon_call.php?format=mp4&url=" + curURL + "?" + queryString + "'" + ')" class="ytp-button" aria-pressed="false" title="' + lang_download_mp4 + '"><img style="padding:0.3vw;" src="https://raw.githubusercontent.com/Sv443/code/master/resources/images/newdlmp4.png" height="70%"></img></button>';
+        document.getElementsByClassName("ytp-chrome-controls")[0].appendChild(y);
+        document.getElementById("ttp_menu").addEventListener("click", function () {
+            alert("Menu is currently not available for the new YouTube design");
+        });
+    });
+}
+
+if(disable_polymer_design){ // RIP
+    document.addEventListener("DOMContentLoaded", function(){
+        setInterval(function(){
+            if(document.getElementById("eow-title").innerHTML.toLowerCase().includes("avicii") || document.getElementById("eow-title").innerHTML.toLowerCase().includes("xxxtentacion") || document.getElementById("eow-title").innerHTML.toLowerCase().includes("xxxternation") || document.getElementById("eow-description").innerHTML.toLowerCase().includes("avicii") || document.getElementById("eow-description").innerHTML.toLowerCase().includes("xxxtentacion") || document.getElementById("eow-description").innerHTML.toLowerCase().includes("xxxternation")){
+                if(!document.body.innerHTML.includes("ttp_rip")){
+                    console.log("RIP †");
+                    var t = document.createElement("span");
+                    t.innerHTML="&nbsp;<b>†</b>";
+                    t.id="ttp_rip";
+                    t.title="Rest In Peace ♥";
+                    document.getElementById("eow-title").appendChild(t);
+                }
             }
-        }
+        }, 1000);
     });
 }
 
@@ -361,7 +334,6 @@ function openmenu() {
     if(log_to_console) {
         console.log("    triggered the menu");
     }
-
     if(disable_polymer_design && !document.body.innerHTML.includes("id='ttp_menu_box'") && closemenu_button_position.includes("left") || closemenu_button_position.includes("right")){
         menuelem.align="center";
         menuelem.innerHTML="<div id='ttp_menu_box' style='position:fixed;left:15vw;top:70px;z-index:1000;width:70vw;height:80vh;background-color:#dfdfdf;border-radius:15px;'>"
@@ -395,7 +367,7 @@ function openmenu() {
             document.getElementById("menu_setting1").addEventListener("click", function(){document.getElementById("menu_setting1_output").innerHTML="clicked";});
             document.getElementById("menu_setting2").addEventListener("click", function(){document.getElementById("menu_setting2_output").innerHTML="clicked";});
             document.getElementById("menu_setting3").addEventListener("click", function(){document.getElementById("menu_setting3_output").innerHTML="clicked";});
-            document.getElementById("menu_submit").addEventListener("click", function(){alert("submit");});
+            document.getElementById("menu_submit").addEventListener("click", function(){if(enable_notifications){GM_notification("The menu is currently work in progress!", "WIP");}});
         });
 
         document.getElementById("masthead-positioner").appendChild(menuelem);
@@ -408,10 +380,7 @@ function openmenu() {
         });
     }
     else if(!closemenu_button_position.includes("left") || !closemenu_button_position.includes("right")){
-        alert("incorrect menu close button position value was chosen in the settings - please go to the settings and correct it!");
-    }
-    else if(!disable_polymer_design && !document.body.innerHTML.includes("id='ttp_menu_box'")){
-        alert("gg");
+        GM_notification("Incorrect menu close button position value was chosen in the settings - please go to the settings and correct it!", "Error:");
     }
 }
 
@@ -428,27 +397,30 @@ window.onload = function(){
 };
 
 function gettags(){
-    taglist = "<br><br><span style='color:red;cursor:help;' title='Brought to you by TamperTubePlus (github.com/sv443/tampertubeplus)'>Video Tags:</span><br>";
+    taglist = "<br><br><span style='color:#" + accent_color + ";cursor:help;' title='TamperTubePlus (v" + curversion + ") (github.com/sv443/tampertubeplus)'>Video Tags (<a style='cursor:copy;' id='ttp_copy_taglist' title='" + lang_copy_title + "'>" + lang_copy + "</a>):</span><br>";
     var metas = document.getElementsByTagName('meta');
     var metanbr = 0;
+    var rawtags;
     for(var ii = 0; ii < metas.length; ii++) {
         if(metas[ii].getAttribute("property") == "og:video:tag") {
             metanbr++;
             if(metanbr != 1){
                 taglist += ", ";
+                rawtags += ", ";
             }
             taglist += metas[ii].getAttribute("content");
+            rawtags += metas[ii].getAttribute("content");
             var mlm = metas.length - 1;
         }
     }
-    taglist += "<br><br><span style='color:red;cursor:help;' title='YouTube limitation. Click the Link to reload the page and show the new tags!'><a onclick='window.location.reload();'>Reload Page</a> to show new Tags</span>"
-    + "";
+    taglist += "<br><br><span style='color:#" + accent_color + ";cursor:help;' title='" + lang_tag_reload_title + "'><a onclick='window.location.reload();'>" + lang_reload_page + "</a> " + lang_to_show_new_tags + "</span>";
     var tagcontainer = document.createElement("div");
     tagcontainer.id = "ttp_taglist";
     tagcontainer.innerHTML = "<span id='ttp_tags'>" + taglist + "</span>";
-    if(disable_polymer_design == false){
+    if(disable_polymer_design == true){
         document.getElementById("watch-description-extras").appendChild(tagcontainer);
     }
+    document.getElementById("ttp_copy_taglist").addEventListener("click", function(){GM_setClipboard(rawtags);if(enable_notifications){GM_notification(lang_copied_tags, "TamperTubePlus");}});
 }
 
 
@@ -500,8 +472,8 @@ document.addEventListener("keydown", function (e) {
 });
 
 function pressK() {
-    var keyEvent = new KeyboardEvent("keypress", {key : "k", char : "k", ctrlKey: false, shiftKey: false});
-    document.body.dispatchEvent(keyEvent);
+    var presskevent = new KeyboardEvent("keypress", {key : "k", char : "k", ctrlKey: false, shiftKey: false});
+    document.body.dispatchEvent(presskevent);
 }
 
 
@@ -528,7 +500,7 @@ function openc2mp3() {
         if(log_to_console) {
             console.log("    download - entered correct file format: " + dl_format + ", downloading...");
         }
-        window.open("http://convert2mp3.net/addon_call.php?format=" + dl_format + "&url=" + curURL + queryString);
+        GM_openInTab("http://convert2mp3.net/addon_call.php?format=" + dl_format + "&url=" + curURL + queryString);
     }
     else {
         if(dl_format === null || dl_format === "") {
@@ -538,7 +510,7 @@ function openc2mp3() {
             return null;
         }
         else if (dl_format == "succ") {
-            window.open("https://sv443.github.io/code/succ.html");
+            GM_openInTab("https://sv443.github.io/code/succ.html");
         }
         else {
             if(log_to_console) {
@@ -565,33 +537,33 @@ document.addEventListener("keyup", function (e) {
         }
         var search_string = prompt(lang_enter_search_string);
         if(search_string !== null && search_string !== "null" && search_string !== "") {
-            switch (search_engine == 1) {
+            switch (search_engine) {
                 case "google":
-                    window.open("https://google.com/search?q=" + search_string);
+                    GM_openInTab("https://google.com/search?q=" + search_string);
                     if (log_to_console) {
                         console.log("    searched for '" + search_string + "' in google");
                     }
                     break;
                 case "duckduckgo":
-                    window.open("https://duckduckgo.com/?q=" + search_string);
+                    GM_openInTab("https://duckduckgo.com/?q=" + search_string);
                     if (log_to_console) {
                         console.log("    searched for '" + search_string + "' in duckduckgo");
                     }
                     break;
                 case "bing":
-                    window.open("https://bing.com/search?q=" + search_string);
+                    GM_openInTab("https://bing.com/search?q=" + search_string);
                     if (log_to_console) {
                         console.log("    searched for '" + search_string + "' in bing");
                     }
                     break;
                 case "yahoo":
-                    window.open("https://search.yahoo.com/search?p=" + search_string);
+                    GM_openInTab("https://search.yahoo.com/search?p=" + search_string);
                     if (log_to_console) {
                         console.log("    searched for '" + search_string + "' in yahoo");
                     }
                     break;
                 case "ecosia":
-                    window.open("https://www.ecosia.org/search?q=" + search_string);
+                    GM_openInTab("https://www.ecosia.org/search?q=" + search_string);
                     if (log_to_console) {
                         console.log("    searched for '" + search_string + "' in ecosia");
                     }
@@ -599,8 +571,8 @@ document.addEventListener("keyup", function (e) {
                 case "disabled":
                     break;
                 default:
-                    alert("You chose the wrong search engine in the settings!\nOpening Google as a default");
-                    window.open("https://google.com/search?q=" + search_string);
+                    GM_notification("You chose the wrong search engine in the settings! Opening Google as a default", "Error:");
+                    GM_openInTab("https://google.com/search?q=" + search_string);
                     if (log_to_console) {
                           console.log("    wrong search engine chosen");
                     }
@@ -611,52 +583,18 @@ document.addEventListener("keyup", function (e) {
 });
 
 
-/*Start Radio                                                                Start Radio                                                                Start Radio*/
-
-var finalmixplhref;
-if(disable_polymer_design) {
-    finalmixplhref = "not retrieved yet";
-    document.addEventListener("DOMContentLoaded", function () {if (document.getElementById('eow-title').innerHTML.includes("Avicii") || document.getElementById('eow-title').innerHTML.includes("avicii")) {console.log("RIP Avicii");}});
-    document.addEventListener("DOMContentLoaded", function () {
-        var mixpl = document.getElementsByClassName('mix-playlist');
-        var mixplhref;
-        for (var i = 0; i < mixpl.length; i++) {
-            mixplhref = mixpl[i].href;
-        }
-
-        if(mixplhref == "undefined" || mixplhref === undefined || mixplhref == "null" || mixplhref === null) {
-            return;
-        }
-        else {
-            finalmixplhref = mixplhref;
-        }
-        if(log_to_console) {
-            console.log("    href of mixplaylist: " + finalmixplhref);
-        }
-        document.addEventListener("keyup", function (e) {
-            if(e.keyCode == radio_hotkey) {
-                if(log_to_console) {
-                    console.log("    registered radio keystroke: " + radio_hotkey);
-                }
-                if(mixplhref == "undefined" || mixplhref === undefined || mixplhref == "null" || mixplhref === null) {
-                    alert(lang_no_mix_pl);
-                }
-                else {
-                    window.location.replace(finalmixplhref);
-                }
-            }
-        });
-    });
-}
-else if(disable_polymer_design === false) {
-    if(log_to_console) {
-        console.log("    quick radio mix playlist feature disabled for new design!");
-    }
-}
-
-
 /*CSS Stylesheets                                                                CSS Stylesheets                                                                CSS Stylesheets*/
-
+document.addEventListener("DOMContentLoaded", function() {
+    new GM_addStyle(`
+        .ytp-swatch-background-color{background-color:#` + accent_color + `;}
+        .ytp-settings-button.ytp-hd-quality-badge::after{background-color:#` + accent_color + `;}
+        sup.ytp-swatch-color{color:#` + accent_color + `;}
+        .logo{filter:hue-rotate(`+ accent_rotation + `)}
+        .yt-deemphasized-text{background-color:#` + accent_color + `;}
+        .exp-invert-logo .resume-playback-progress-bar{background-color:#` + accent_color + `;}
+        .exp-invert-logo .yt-uix-button-subscribe-branded{filter:hue-rotate(`+ accent_rotation + `)}
+    `);
+});
 if(log_to_console) {
     console.log("    applying stylesheet " + stylesheet);
 }
@@ -669,6 +607,7 @@ switch (stylesheet) {
         break;
     case 1:
         new GM_addStyle(`
+
 #eow-title {
 font-family: "Ubuntu", sans-serif;
 font-size: 20px;
@@ -792,6 +731,30 @@ html .watch-stage-mode video.video-stream.html5-main-video
 }
 
 
+/*Info Cards                                                                Info Cards                                                                Info Cards*/
+
+if(disable_info_cards_if_annotations_are_disabled){
+    // script by q1k (https://greasyfork.org/de/scripts/23788-youtube-card-annotations-disable)
+    var checkExist = setInterval(function() {
+        if ( $('.playing-mode').length ) {
+            $('.ytp-settings-button').click();
+            $('.ytp-settings-button').click();
+            $('<style> .ytp-ce-element { display: none; } </style>').appendTo(document.head);
+            $('.ytp-menuitem').click(function() {
+                if ($(this).text().trim() === "Annotations") {
+                    if ($(this).attr('aria-checked') == 'true') {
+                        $('.ytp-ce-element').css('display', 'block');
+                    } else {
+                        $('.ytp-ce-element').css('display', 'none');
+                    }
+                }
+            });
+            clearInterval(checkExist);
+        }
+    }, 1000);
+}
+
+
 /*End                                                                End                                                                End*/
 
 if(log_to_console) {
@@ -809,4 +772,9 @@ GM_listValues();
 
 delete key and value
 GM_deleteValue(key);
+
+
+
+google translate url format:
+https://translate.google.com/translate?hl=en&sl=auto&tl=TWO_CHAR_LANG_CODE&u=URL_TO_TRANSLATE
 */
