@@ -1,4 +1,4 @@
-# TamperTubePlus - Use TamperMonkey to add many features to YouTube
+# <img src="https://raw.githubusercontent.com/Sv443/code/master/resources/favicons/tampertubeplusv5.png" /> TamperTubePlus - Use TamperMonkey to add many features to YouTube
 
 
 # Current Features:
