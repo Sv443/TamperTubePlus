@@ -1,3 +1,5 @@
+# Note: this project is abandoned due to numerous bugs that I really don't wanna fix. Sorry!
+
 # <img src="https://raw.githubusercontent.com/Sv443/code/master/resources/favicons/tampertubeplusv5.png" /> TamperTubePlus - Use TamperMonkey to add many features to YouTube
 
 
